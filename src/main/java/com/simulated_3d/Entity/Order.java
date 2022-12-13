@@ -38,10 +38,16 @@ public class Order {
 
 //      TODO 연관관계 메서드
 
-public void setMember(Member member)
+public void Set_Member(Member member)
 {
     this.member = member;
-    member.getOrder_list().add(this);
+    this.member.getOrder_list().add(this);
+}
+
+public void Add_Order_Item(Order_Item order_item)
+{
+    order_item_list.add(order_item);
+    order_item.setOrder(this);
 }
 
 
