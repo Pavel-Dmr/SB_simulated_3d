@@ -1,6 +1,7 @@
 package com.simulated_3d.Controller;
 
 import com.simulated_3d.DTO.Member_DTO;
+import com.simulated_3d.Entity.Member;
 import com.simulated_3d.Service.Member_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,13 +41,16 @@ public class Member_Controller {
 
         try
         {
-
+            Member member = Member.Create_Member(member_dto,password_encoder);
+            member_service.Save_Member(member);
         }
         catch(IllegalStateException e)
         {
             model.addAttribute("error_message",e.getMessage());
             return "Member/Member_Sign";
         }
+
+        return "redirect:/";
 
     }
 

@@ -34,7 +34,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private String role_status;
 
-//    TODO  연관관계 필드
+//   ================== 여기부터 연관관계 필드
 
     @OneToMany(mappedBy = "member")
     private Address address;
@@ -49,7 +49,6 @@ public class Member {
         member.setNickname(member_dto.getNickname());
         member.setEmail(member_dto.getEmail());
 
-//        암호화후 패스워드 저장
         String password = password_encoder.encode(member_dto.getPassword());
         member.setPassword(password);
 
