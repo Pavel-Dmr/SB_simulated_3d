@@ -1,57 +1,67 @@
 <!DOCTYPE html>
 <html
   xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
-  <div th:fragment="header">
-    <nav class="navbar navbar-expand-sm bg-primary navbar-dark">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarTogglerDemo03"
-        aria-controls="navbarTogglerDemo03"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="/">Shop</a>
-
-      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/item/new">상품 등록</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin/items">상품 관리</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/cart">장바구니</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/orders">구매이력</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/members/login">로그인</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/members/logout">로그아웃</a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0" th:action="@{/}" method="get">
-          <input
-            name="searchQuery"
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
-          </button>
-        </form>
-      </div>
-    </nav>
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <link rel="stylesheet" th:href="@{/CSS/Style.css}" />
+  <div th:fragment="header" class="header">
+    <div class="wrap">
+      <!--  -->
+      <nav class="navbar navbar-expand-sm navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/member/login">로그인</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/member/new">회원 가입</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cart">장바구니</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/order">주문내역</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/members/login">구매후기</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/members/logout">AS 기술지원</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!--  -->
+      <nav class="navbar navbar-expand-sm navbar-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a href="/" class="navbar-brand">KeyBoard_Shop</a>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav m-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/member/login">멤브레인</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/member/new">기계식</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cart">무접점</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/order">로우프로 파일</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/members/login">키보드 액세서리</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/members/logout">이벤트</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
   </div>
 </html>

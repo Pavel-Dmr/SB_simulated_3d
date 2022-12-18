@@ -1,0 +1,38 @@
+.header {
+  position: absolute;
+  top: 0;
+  font-size: 12px;
+}
+.header .wrap {
+  width: 60vw;
+  height: 200px;
+  position: relative;
+  margin: 0 20vw;
+}
+
+.header nav {
+  position: absolute;
+  width: 100%;
+  color: white;
+}
+
+.header nav:nth-child(2) {
+  top: 50px;
+}
+
+.content .wrap {
+  width: 60vw;
+  height: 1000px;
+  position: relative;
+  margin: 0 20vw;
+}
+
+.main_title_01 {
+  width: 100%;
+  text-align: center;
+}
+
+.catagory_group_01 {
+  width: 100%;
+  display: grid;
+}

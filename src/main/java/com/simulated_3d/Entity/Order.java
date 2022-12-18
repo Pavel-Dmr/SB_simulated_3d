@@ -32,9 +32,9 @@ public class Order {
     @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)
     private List<Order_Item> order_item_list= new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery_id")
-    private Delivery delivery;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "delivery_id")
+//    private Delivery delivery;
 
 //      TODO 연관관계 메서드
 

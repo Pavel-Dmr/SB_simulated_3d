@@ -1,6 +1,6 @@
 package com.simulated_3d.Controller;
 
-import com.simulated_3d.DTO.Member_DTO;
+import com.simulated_3d.DTO.Member_Dto;
 import com.simulated_3d.Entity.Member;
 import com.simulated_3d.Service.Member_Service;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +27,12 @@ public class Member_Controller {
     @GetMapping(value = "/new")
     public String Member_Sign(Model model)
     {
-        model.addAttribute("memder_dto",new Member_DTO());
+        model.addAttribute("memder_dto",new Member_Dto());
         return "Member/Member_Sign";
     }
 
     @PostMapping(value = "/new")
-    public String Member_Sign(@Valid Member_DTO member_dto, BindingResult binding_result, Model model)
+    public String Member_Sign(@Valid Member_Dto member_dto, BindingResult binding_result, Model model)
     {
         if(binding_result.hasErrors())
         {
@@ -52,6 +52,20 @@ public class Member_Controller {
 
         return "redirect:/";
 
+    }
+
+    @GetMapping(value = "/login")
+    public String Member_Login(Model model)
+    {
+
+        return "Member/Member_Login";
+    }
+
+    @GetMapping(value = "/login/error")
+    public String Member_Login_Error(Model model)
+    {
+        model.addAttribute("login_error","아이디와 비번을 다시 확인해주세요.");
+        return "Member/Member_Login";
     }
 
 }

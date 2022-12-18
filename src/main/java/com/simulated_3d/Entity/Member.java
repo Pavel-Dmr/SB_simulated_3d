@@ -1,7 +1,7 @@
 package com.simulated_3d.Entity;
 
 import com.simulated_3d.Constant.Role_Status;
-import com.simulated_3d.DTO.Member_DTO;
+import com.simulated_3d.DTO.Member_Dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,17 +32,14 @@ public class Member {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private String role_status;
+    private Role_Status role_status;
 
 //   ================== 여기부터 연관관계 필드
 
     @OneToMany(mappedBy = "member")
-    private Address address;
-
-    @OneToMany(mappedBy = "member")
     private List<Order> order_list = new ArrayList<>();
 
-    public static Member Create_Member(Member_DTO member_dto, PasswordEncoder password_encoder)
+    public static Member Create_Member(Member_Dto member_dto, PasswordEncoder password_encoder)
     {
         Member member = new Member();
         member.setName(member_dto.getName());
@@ -52,8 +49,7 @@ public class Member {
         String password = password_encoder.encode(member_dto.getPassword());
         member.setPassword(password);
 
-        member.setRole_status(String.valueOf(Role_Status.USER));
-        member.setAddress(member_dto.getAddress());
+        member.setRole_status(Role_Status.USER);
 
         return member;
     }

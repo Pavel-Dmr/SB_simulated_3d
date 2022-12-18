@@ -8,6 +8,8 @@ body {
   min-height: 100%;
 }
 
+.header {
+}
 .footer {
   position: absolute;
   left: 0;
@@ -19,8 +21,6 @@ body {
 }
 
 .content {
-  margin-bottom: 100px;
-  margin-top: 50px;
-  margin-left: 200px;
-  margin-right: 200px;
+  position: relative;
+  top: 200px;
 }

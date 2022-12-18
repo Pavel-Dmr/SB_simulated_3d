@@ -20,9 +20,9 @@ public class Order_Item {
     private int count;
 
 //    TODO 연관관계 필드
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="item_id")
-    private Item item;
+//    @ManyToOne(fetch=FetchType.LAZY)
+//    @JoinColumn(name="item_id")
+//    private Item item;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="order_id")
