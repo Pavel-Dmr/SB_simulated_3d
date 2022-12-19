@@ -35,4 +35,23 @@
 .catagory_group_01 {
   width: 100%;
   display: grid;
+  grid-template-columns: 250px 250px 250px 250px;
+  grid-template-rows: 250px 250px;
+  justify-content: center;
+  align-items: center;
+}
+
+.catagory_group_01 div {
+  width: 250px;
+  height: 250px;
+}
+
+.catagory_group_01 div:nth-child(1) {
+  background: url("../IMG/Keychron_Q8_1.jpg");
+}
+
+.top_background {
+  position: relative;
+  width: 100vw;
+  height: 1000px;
 }

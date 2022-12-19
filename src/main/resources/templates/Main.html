@@ -2,14 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
 layout:decorate="~{Layout/Layout_01}">
-
+<style th:inline="text"></style>
 <div layout:fragment="content">
+  <div class="top_background"></div>
   <div class="wrap">
     <div class="main_title_01">
       <h2>인기 카테고리</h2>
       <div class="catagory_group_01">
-        <a href="">키크론</a><a href="">마이크로닉스</a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a><a href=""></a>
-        </ul>
+        <div
+          th:style="'background-image:url('+ @{/img/Keychron_Q8_1.jpg} +');'">
+          키크론
+        </div>
+        <div>마이크로닉스</div>
+        <div>로지텍</div>
+        <div>레이저</div>
+        <div>쿨러마스터</div>
+        <div>앱코</div>
+        <div>커세어</div>
+        <div>레오폴드</div>
       </div>
     </div>
   </div>
