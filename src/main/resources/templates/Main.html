@@ -4,23 +4,58 @@ xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
 layout:decorate="~{Layout/Layout_01}">
 <style th:inline="text"></style>
 <div layout:fragment="content">
-  <div class="top_background"></div>
+  <div class="top_background_side">
+    <div class="top_background"></div>
+  </div>
+
   <div class="wrap">
-    <div class="main_title_01">
-      <h2>인기 카테고리</h2>
+    <section class="main_title">
+      <h3>인기 카테고리</h3>
       <div class="catagory_group_01">
-        <div
-          th:style="'background-image:url('+ @{/img/Keychron_Q8_1.jpg} +');'">
-          키크론
+        <div th:style="'background-image:url('+ @{/img/keychron.jpg} +');'">
+          <div class="bottom_title">키크론</div>
+          <div class="bottom_sub">미니멀리스트에 적합한 디자인.</div>
+          <div class="bottom_background"></div>
         </div>
-        <div>마이크로닉스</div>
-        <div>로지텍</div>
-        <div>레이저</div>
-        <div>쿨러마스터</div>
-        <div>앱코</div>
-        <div>커세어</div>
-        <div>레오폴드</div>
+        <div th:style="'background-image:url('+ @{/img/micro.jpeg} +');'">
+          <div class="bottom_title">마이크로닉스</div>
+          <div class="bottom_sub">신뢰성 있는 제품을 제공합니다.</div>
+          <div class="bottom_background"></div>
+        </div>
+        <div th:style="'background-image:url('+ @{/img/logitech.jpg} +');'">
+          <div class="bottom_title">로지텍</div>
+          <div class="bottom_sub">사무용 끝판왕.</div>
+          <div class="bottom_background"></div>
+        </div>
+        <div th:style="'background-image:url('+ @{/img/razer.jpg} +');'">
+          <div class="bottom_title">레이저</div>
+          <div class="bottom_sub">게이머들을 위한.</div>
+          <div class="bottom_background"></div>
+        </div>
+        <div th:style="'background-image:url('+ @{/img/cooler.jpg} +');'">
+          <div class="bottom_title">쿨러마스터</div>
+          <div class="bottom_sub">커스텀 가능한.</div>
+          <div class="bottom_background"></div>
+        </div>
+        <div th:style="'background-image:url('+ @{/img/abko.jpg} +');'">
+          <div class="bottom_title">앱코</div>
+          <div class="bottom_sub">믿고 사용하는 앱코</div>
+          <div class="bottom_background"></div>
+        </div>
+        <div th:style="'background-image:url('+ @{/img/leofold.jpg} +');'">
+          <div class="bottom_title">레오폴드</div>
+          <div class="bottom_sub">커스텀을 원하는 전문가들을 위한.</div>
+          <div class="bottom_background"></div>
+        </div>
+        <div th:style="'background-image:url('+ @{/img/corsair.jpg} +');'">
+          <div class="bottom_title">커세어</div>
+          <div class="bottom_sub">감성적인 디자인.</div>
+          <div class="bottom_background"></div>
+        </div>
       </div>
-    </div>
+    </section>
+    <section class="main_title">
+      <h3>키크론 추천 키보드</h3>
+    </section>
   </div>
 </div>

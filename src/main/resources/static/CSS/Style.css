@@ -1,57 +1,167 @@
 .header {
-  position: absolute;
+  position: relative;
   top: 0;
   font-size: 12px;
+  width: 100vw;
+  z-index: 9999;
+  color: white;
 }
 .header .wrap {
-  width: 60vw;
+  width: 1100px;
   height: 200px;
   position: relative;
-  margin: 0 20vw;
+  margin: 0 auto;
+  max-width: 1500px;
 }
 
 .header nav {
-  position: absolute;
+  position: relative;
   width: 100%;
   color: white;
 }
 
+.header nav:nth-child(1) {
+  left: 0;
+}
 .header nav:nth-child(2) {
-  top: 50px;
+  top: 20px;
+  right: 0;
+  font-size: 15px;
 }
 
 .content .wrap {
-  width: 60vw;
-  height: 1000px;
+  width: 1500px;
+  height: 1200px;
   position: relative;
-  margin: 0 20vw;
+  margin: 0 auto;
 }
 
-.main_title_01 {
+.main_title {
   width: 100%;
+  height: 700px;
+  top: 50px;
+  position: relative;
   text-align: center;
 }
 
 .catagory_group_01 {
   width: 100%;
+  position: relative;
+  top: 50px;
   display: grid;
-  grid-template-columns: 250px 250px 250px 250px;
-  grid-template-rows: 250px 250px;
+  grid-template-columns: 270px 270px 270px 270px;
+  grid-template-rows: 270px 270px;
   justify-content: center;
   align-items: center;
 }
 
-.catagory_group_01 div {
+.catagory_group_01 > div {
   width: 250px;
   height: 250px;
+  border-radius: 15%;
+  position: relative;
+  overflow: hidden;
 }
 
-.catagory_group_01 div:nth-child(1) {
-  background: url("../IMG/Keychron_Q8_1.jpg");
+.top_background_side {
+  width: 100vw;
+  height: 775px;
+  background-color: black;
+  position: relative;
 }
-
 .top_background {
   position: relative;
-  width: 100vw;
-  height: 1000px;
+  width: 1100px;
+  height: 775px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0 auto;
+  background: linear-gradient(
+      to left,
+      rgba(20, 20, 20, 0) 10%,
+      rgba(20, 20, 20, 0) 25%,
+      rgba(20, 20, 20, 0) 50%,
+      rgba(20, 20, 20, 0.75) 75%,
+      rgba(0, 0, 0, 1) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(20, 20, 20, 0) 10%,
+      rgba(20, 20, 20, 0) 25%,
+      rgba(20, 20, 20, 0) 50%,
+      rgba(20, 20, 20, 0.75) 75%,
+      rgba(0, 0, 0, 1) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(20, 20, 20, 0) 10%,
+      rgba(20, 20, 20, 0) 25%,
+      rgba(20, 20, 20, 0) 50%,
+      rgba(20, 20, 20, 0.75) 75%,
+      rgba(0, 0, 0, 1) 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(20, 20, 20, 0) 10%,
+      rgba(20, 20, 20, 0) 25%,
+      rgba(20, 20, 20, 0.5) 50%,
+      rgba(20, 20, 20, 0.75) 75%,
+      rgba(0, 0, 0, 1) 100%
+    ),
+    url("../img/main_01.jpg");
+  background-size: cover;
+}
+
+.bottom_title {
+  width: 100%;
+  text-align: left;
+  font-size: 18px;
+  position: absolute;
+  bottom: 13px;
+  left: 24px;
+  color: white;
+  z-index: 20;
+  transition: all 0.5s 0.2s;
+}
+
+.catagory_group_01 > div:hover .bottom_title {
+  bottom: 125px;
+  transition-delay: 0;
+}
+
+.bottom_sub {
+  width: 100%;
+  font-size: 14px;
+  text-align: left;
+  position: absolute;
+  color: white;
+  bottom: -20px;
+  left: 23px;
+  z-index: 20;
+  transition: all 0.5s;
+  font-weight: 200;
+}
+
+.catagory_group_01 > div:hover .bottom_sub {
+  bottom: 100px;
+  transition-delay: 0.4s;
+}
+
+.bottom_background {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 50px;
+  z-index: 10;
+  transition: all 0.5s;
+}
+
+.catagory_group_01 > div:hover .bottom_background {
+  height: 100%;
+}
+
+.navbar-brand {
+  top: -22px;
+  position: relative;
 }

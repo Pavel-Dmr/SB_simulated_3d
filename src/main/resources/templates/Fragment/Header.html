@@ -2,11 +2,10 @@
 <html
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <link rel="stylesheet" th:href="@{/CSS/Style.css}" />
   <div th:fragment="header" class="header">
     <div class="wrap">
       <!--  -->
-      <nav class="navbar navbar-expand-sm navbar-dark">
+      <nav class="navbar navbar-expand-sm">
         <button class="navbar-toggler" type="button" data-toggle="collapse">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -34,13 +33,16 @@
         </div>
       </nav>
       <!--  -->
-      <nav class="navbar navbar-expand-sm navbar-dark">
+      <nav class="navbar navbar-expand-sm">
         <button class="navbar-toggler" type="button" data-toggle="collapse">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a href="/" class="navbar-brand">KeyBoard_Shop</a>
+
         <div class="collapse navbar-collapse">
-          <ul class="navbar-nav m-auto">
+          <ul class="navbar-nav mr-auto ml-0">
+            <li class="nav-item">
+              <a href="/" class="navbar-brand"><h1>KeyBoard</h1></a>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="/member/login">멤브레인</a>
             </li>
@@ -62,6 +64,12 @@
           </ul>
         </div>
       </nav>
+      <div class="right_popup">
+        <div class="kakko"></div>
+        <div class="recent"></div>
+        <div class="after_service"></div>
+        <div class="wish_list"></div>
+      </div>
     </div>
   </div>
 </html>
