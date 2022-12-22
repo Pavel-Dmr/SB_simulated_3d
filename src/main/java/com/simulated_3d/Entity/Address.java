@@ -20,7 +20,7 @@ public class Address {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="member_key")
+    @JoinColumn(name="member_id")
     private Member member;
 
     private String city; // 서울시

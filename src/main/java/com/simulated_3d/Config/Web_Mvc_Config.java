@@ -1,9 +1,11 @@
 package com.simulated_3d.Config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@Configuration
 public class Web_Mvc_Config implements WebMvcConfigurer {
 
     @Value("${upload_path") // 프로퍼티 값을 읽어옵니다.

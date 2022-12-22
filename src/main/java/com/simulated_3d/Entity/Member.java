@@ -1,6 +1,7 @@
 package com.simulated_3d.Entity;
 
 import com.simulated_3d.Constant.Role_Status;
+import com.simulated_3d.DTO.Address_Dto;
 import com.simulated_3d.DTO.Member_Dto;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,9 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Order> order_list = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<Address> address_list = new ArrayList<>();
+
     public static Member Create_Member(Member_Dto member_dto, PasswordEncoder password_encoder)
     {
         Member member = new Member();
@@ -52,5 +56,11 @@ public class Member {
         member.setRole_status(Role_Status.USER);
 
         return member;
+    }
+
+    public void Add_Address(Address address)
+    {
+        address_list.add(address);
+        address.setMember(this);
     }
 }
