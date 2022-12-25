@@ -24,6 +24,8 @@ public class Security_Config {
          인증 과정중에 예외 발생시 핸들링
          예외 발생시 authenticationEntryPoint 에서 로직을 처리합니다
     */
+
+
     @Bean
     public SecurityFilterChain FilterChain(HttpSecurity http) throws Exception
     {
@@ -39,8 +41,8 @@ public class Security_Config {
                 .logoutSuccessUrl("/");
 
         http.authorizeRequests()
-                .mvcMatchers("/css/**","/js/**","/img/**").permitAll()
-                .mvcMatchers("/","/member/**","/item/**","/image/**").permitAll()
+                .mvcMatchers("/css/**","/js/**","/img/**","/Font/**").permitAll()
+                .mvcMatchers("/","/member/**","/item/**","/image/**","/test").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 

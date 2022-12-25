@@ -52,6 +52,7 @@ public class Member_Service implements UserDetailsService {
     public Boolean Check_Nickname(String nickname) {
         return member_repository.existsByNickname(nickname);
     }
+
     public Boolean Check_Email(String email) {
         return member_repository.existsByEmail(email);
     }

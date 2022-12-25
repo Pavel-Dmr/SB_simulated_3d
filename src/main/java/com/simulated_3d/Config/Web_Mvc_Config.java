@@ -15,6 +15,11 @@ public class Web_Mvc_Config implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("images/**")
                 .addResourceLocations(upload_path);
+
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/templates/", "classpath:/static/");
+
+
 //        로컬 컴퓨터에 저장된 파일을 읽어올 root 경로 설정
 
         //웹 브라우저에 입력하는 url에 /images로 시작하는 경우 upload_path에 설정한

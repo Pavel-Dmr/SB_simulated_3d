@@ -4,6 +4,7 @@ import com.simulated_3d.DTO.Member_Dto;
 import com.simulated_3d.Entity.Member;
 import com.simulated_3d.Service.Member_Service;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
+import java.util.HashMap;
 
-@Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
+@Controller
+@Slf4j
 public class Member_Controller {
 
     @Autowired
@@ -71,25 +75,19 @@ public class Member_Controller {
     }
 
 //    중복 체크 - 닉네임, 이메일
-    @PostMapping("/{nickname}/check")
-    public @ResponseBody ResponseEntity Check_Nickname_Duplicate(@PathVariable("nickname") String nickname)
+    @PostMapping( value = "/nickname_check" )
+    public @ResponseBody ResponseEntity Check_Nickname_Duplicate(@RequestBody HashMap<String,String> nickname)
     {
-        if(!member_service.Check_Nickname(nickname))
-        {
-            return new ResponseEntity<String>("이미 사용중인 닉네임입니다.", HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<String>(nickname,HttpStatus.OK);
-    }
 
-    @PostMapping("/{email}/check")
-    public @ResponseBody ResponseEntity Check_Email_Duplicate(@PathVariable("email") String email)
-    {
-        if(!member_service.Check_Email(email))
+        if(member_service.Check_Nickname(nickname.get("nickname")))
         {
-            return new ResponseEntity<String>("이미 사용중인 이메일입니다.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("이미 사용중인 닉네임입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<String>(email,HttpStatus.OK);
+        log.debug(nickname.get("nickname"));
+
+        return new ResponseEntity<>(nickname,HttpStatus.OK);
     }
+
 
 }

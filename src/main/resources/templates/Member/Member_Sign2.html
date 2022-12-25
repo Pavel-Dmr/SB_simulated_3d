@@ -3,6 +3,7 @@
   <head>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <script type="text/javascript" th:src="@{/js/Member.js}"></script>
   </head>
   <!-- 사용자 CSS 추가 -->
   <th:block layout:fragment="css">
@@ -17,161 +18,47 @@
 
   <th:block layout:fragment="script">
     <script th:inline="javascript">
-                              $(document).ready(function(){
-
-                      var error_message = [[${error_message}]];
-                      if(error_message != null){
-                          alert(error_message);
-                      }
-                              });
-
-      <!-- 구현부 -->
-
-                              function Nickname_Check() {
-
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-
-            const nickname = $("#nickname").val();
-
-                if (nickname == "") {
-                    alert("닉네임은 반드시 입력해야합니다.");
-                    $("#nickname").focus();
-                    return false;
-                }
-                else if(nickname.length < 6 || nickname.length > 12)
-                {
-                  alert("닉네임은 6자이상 12자이하로만 가능합니다.")
-                  $("#nickname").focus();
-                  return false;
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/member/"+ nickname + "/check",
-                    data: {nickname: nickname},
-                    dataType: "JSON",
-                    beforeSend : function(xhr){
-                          xhr.setRequestHeader(header, token);
-                      },
-                    success: function (result) {
-                            if (confirm("이 아이디는 사용 가능합니다. \n사용하시겠습니까?")) {
-                                $("#nickname").attr("readonly", true);
-                                $("#nickname_check").attr("disabled", true);
-                                $("#nickname_check").css("display", "none");
-                                $("#nickname_reset").attr("disabled", false);
-                                $("#nickname_reset").css("display", "inline-block");
-                            }
-                    },
-                    error: function (request, status,error) {
-                        alert("ajax 실행 실패");
-                        alert("code:" + request.status + "\n" + "error :" + error);
-                    }
-                });
-            }
-
-
-                  function Email_Check() {
-
-                  const email = $("#email").val();
-
-                  var token = $("meta[name='_csrf']").attr("content");
-                  var header = $("meta[name='_csrf_header']").attr("content");
-
-                  if (email == "") {
-                    alert("이메일은 반드시 입력해야합니다.");
-                    $("#email").focus();
-                    return false;
-                  }
-                  else if(!Email_Form_Check(email))
-                  {
-                    alert("형식에 맞지 않는 이메일입니다.");
-                    $("#email").focus();
-                    return false;
-                  }
-                  var paramData =
-                  {
-                    email : email,
-                  };
-
-                  var param = JSON.stringify(paramData);
-
-                  $.ajax({
-                  type: "POST",
-                  url: "/member/"+ email + "/check",
-                  data: param,
-                  dataType: "JSON",
-                  beforeSend : function(xhr){
-                          xhr.setRequestHeader(header, token);
-                      },
-                  cache:false,
-                  success: function (result,status) {
-                      if (confirm("이 이메일은 사용 가능합니다. \n사용하시겠습니까?")) {
-                          $("#email").attr("readonly", true);
-                          $("#email_check").attr("disabled", true);
-                          $("#email_check").css("display", "none");
-                          $("#email_reset").attr("disabled", false);
-                          $("#email_reset").css("display", "inline-block");
-                      }
-                  },
-                  error: function (request, status,error) {
-                    alert("ajax 실행 실패");
-                    alert("code:" + request.status + "\n" + "error :" + error);
-                     alert("이미 사용중인 이메일입니다.");
-                      $("#email").focus();
-                  }
-
-                  });
-                };
-
-                       /* 입력 이메일 형식 유효성 검사 */
-                       function Email_Form_Check(email){
-                      var form = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-                      return form.test(email);
-                  }
-
-
-                  function Reset(type)
-                  {
-                      $("#" + type).attr("readonly",false);
-                      $("#" + type +"_check").attr("disabled",false);
-                      $("#" + type +"_check").attr("display","inline-block");
-                      $("#" + type +"_reset").attr("disabled",true);
-                      $("#" + type +"_reset").attr("display","none");
-                  }
+      $(document).ready(function(){
+          var errorMessage = [[${errorMessage}]];
+          if(errorMessage != null){
+              alert(errorMessage);
+          }
+      });
     </script>
   </th:block>
 
   <div layout:fragment="content">
-    <form th:action="@{/members/new}" role="form" method="post" th:object="${member_dto}">
-      <div class="form-group">
-        <label th:for="name">이름</label>
-        <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력해주세요" />
+    <div class="wrap">
+    <form th:action="@{/member/new}" role="form" method="post" th:object="${member_dto}" class="form_center">
+      <label>회원정보 입력</label>
+      <div class="form-group mb-0 row">
+        <label th:for="name" class="col-sm-2 col-form-label"><span id="star">*</span> 이름</label>
+        <input type="text" th:field="*{name}" class="form-control w-25"  />
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field_error">Incorrect data</p>
       </div>
-      <div class="form-group">
-        <label th:for="nickname">닉네임</label>
-        <input type="text" th:field="*{nickname}" class="form-control" placeholder="이름을 입력해주세요" />
+      <div class="form-group mb-0 row">
+        <label th:for="nickname"  class="col-sm-2 col-form-label"><span id="star">*</span> 닉네임</label>
+        <input type="text" th:field="*{nickname}" class="form-control w-25"  />
         <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="field_error">Incorrect data</p>
         <input type="button" id="nickname_check" class="btn btn-outline-primary btn-sm mx-1" value="중복체크" onclick="Nickname_Check()" />
-        <input type="button" id="nickname_reset" class="btn btn-outline-suceess btn-sm" value="재설정" disabled onclick="Reset(nickname)" />
+        <input type="button" id="nickname_reset" class="btn btn-outline-danger btn-sm" value="재설정" disabled onclick="Reset(nickname)" />
       </div>
-
-      <div class="form-group">
-        <label th:for="email">이메일주소</label>
-        <input type="email" th:field="*{email}" class="form-control" placeholder="이메일을 입력해주세요" />
+      <div class="form-group mb-0 row">
+        <label th:for="email" class="col-sm-2 col-form-label"><span id="star">*</span> 이메일</label>
+        <input type="email" th:field="*{email}" class="form-control w-25"  />
         <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field_error">Incorrect data</p>
         <input type="button" id="email_check" class="btn btn-outline-primary btn-sm mx-1" value="중복체크" onclick="Email_Check()" />
-        <input type="button" id="email_reset" class="btn btn-outline-suceess btn-sm" value="재설정" disabled onclick="Reset(email)" />
+        <input type="button" id="email_reset" class="btn btn-outline-danger btn-sm" value="재설정" disabled onclick="Reset(email)" />
       </div>
-      <div class="form-group">
-        <label th:for="password">비밀번호</label>
-        <input type="password" th:field="*{password}" class="form-control" placeholder="비밀번호 입력" />
+      <div class="form-group mb-0 row">
+        <label th:for="password" class="col-sm-2 col-form-label"><span id="star">*</span> 비밀번호</label>
+        <input type="password" th:field="*{password}" class="form-control w-25" />
         <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field_error">Incorrect data</p>
       </div>
       <div style="text-align: center">
-        <button type="submit" class="btn btn-primary" style="">Submit</button>
+        <button type="submit" class="btn btn-primary" style="">동의하고 가입완료</button>
       </div>
+    </div>
     </form>
   </div>
 </html>
