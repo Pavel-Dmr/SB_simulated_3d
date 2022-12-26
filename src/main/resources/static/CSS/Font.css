@@ -1,0 +1,31 @@
+:root {
+  @font-face {
+    font-family: "neo_light";
+    src: url("../Font/NanumSquareNeoTTF-aLt.woff") format(".woff");
+  }
+  @font-face {
+    font-family: "neo_regular";
+    src: url("../Font/NanumSquareNeoTTF-bRg.woff") format(".woff");
+  }
+  @font-face {
+    font-family: "neo_bold";
+    src: url("../Font/NanumSquareNeoTTF-cBd.woff") format(".woff");
+  }
+  @font-face {
+    font-family: "neo_extrabold";
+    src: url("../Font/NanumSquareNeoTTF-dEb.woff") format(".woff");
+  }
+  @font-face {
+    font-family: "neo_heavy";
+    src: url("../Font/NanumSquareNeoTTF-eHv.woff") format(".woff");
+  }
+
+  @font-face {
+    font-family: "impact";
+    src: url("../Font/zh-cn.ttf") format("truetype");
+  }
+  @font-face {
+    font-family: "nova";
+    src: url("../Font/NovaMono-Regular.ttf") format("truetype");
+  }
+}
