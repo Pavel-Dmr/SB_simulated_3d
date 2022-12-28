@@ -34,7 +34,7 @@ public class Member_Controller {
     public String Member_Sign(Model model)
     {
         model.addAttribute("member_dto",new Member_Dto());
-        return "Member/Member_Sign2";
+        return "Member/Member_Sign";
     }
 
     @PostMapping(value = "/new")
@@ -42,7 +42,7 @@ public class Member_Controller {
     {
         if(binding_result.hasErrors())
         {
-            return "Member/Member_Sign2";
+            return "Member/Member_Sign";
         }
 
         try
@@ -53,7 +53,7 @@ public class Member_Controller {
         catch(IllegalStateException e)
         {
             model.addAttribute("error_message",e.getMessage());
-            return "Member/Member_Sign2";
+            return "Member/Member_Sign";
         }
 
         return "redirect:/";
@@ -63,7 +63,6 @@ public class Member_Controller {
     @GetMapping(value = "/login")
     public String Member_Login(Model model)
     {
-
         return "Member/Member_Login";
     }
 
@@ -74,20 +73,35 @@ public class Member_Controller {
         return "Member/Member_Login";
     }
 
+
+
 //    중복 체크 - 닉네임, 이메일
     @PostMapping( value = "/nickname_check" )
     public @ResponseBody ResponseEntity Check_Nickname_Duplicate(@RequestBody HashMap<String,String> nickname)
     {
 
-        if(member_service.Check_Nickname(nickname.get("nickname")))
+        if(member_service.Check_Nickname(nickname.get("data")))
         {
             return new ResponseEntity<>("이미 사용중인 닉네임입니다.", HttpStatus.BAD_REQUEST);
         }
 
-        log.debug(nickname.get("nickname"));
+        log.debug(nickname.get("data"));
 
         return new ResponseEntity<>(nickname,HttpStatus.OK);
     }
 
+    @PostMapping( value = "/email_check" )
+    public @ResponseBody ResponseEntity Check_Email_Duplicate(@RequestBody HashMap<String,String> email)
+    {
+
+        if(member_service.Check_Nickname(email.get("data")))
+        {
+            return new ResponseEntity<>("이미 사용중인 이메일입니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        log.debug(email.get("data"));
+
+        return new ResponseEntity<>(email,HttpStatus.OK);
+    }
 
 }

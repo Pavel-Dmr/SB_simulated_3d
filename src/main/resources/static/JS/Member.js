@@ -1,33 +1,68 @@
 // 메서드 라인
-function Nickname_Check() {
+function Form_Check(type) {
   var token = $("meta[name='_csrf']").attr("content");
   var header = $("meta[name='_csrf_header']").attr("content");
 
-  const nickname = String($("#nickname").val());
-  let data = {nickname: nickname};
+  const data = String($("#" + type).val());
 
-  if (nickname == "") {
-    alert("닉네임은 반드시 입력해야합니다.");
-    $("#nickname").focus();
-    return false;
-  } else if (nickname.length < 6 || nickname.length > 12) {
-    alert("닉네임은 6자이상 12자이하로만 가능합니다.");
-    $("#nickname").focus();
-    return false;
+  let data_json = {data: data};
+
+  switch (type) {
+    case "nickname": {
+      if (data == "") {
+        alert("닉네임은 반드시 입력해야합니다.");
+        $("#nickname").focus();
+        return false;
+      } else if (data.length < 6 || data.length > 12) {
+        alert("닉네임은 6자이상 12자이하로만 가능합니다.");
+        $("#nickname").focus();
+        return false;
+      }
+      break;
+    }
+    case "email": {
+      if (!Email_Form_Check(data)) {
+        alert("이메일 형식이 맞지 않습니다.");
+        return false;
+      }
+      break;
+    }
   }
 
   $.ajax({
     type: "POST",
-    url: "/member/nickname_check",
+    url: "/member/" + type + "_check",
     dataType: "json",
     contentType: "application/json",
-    data: JSON.stringify(data),
+    data: JSON.stringify(data_json),
     cache: false,
     beforeSend: function (request) {
       request.setRequestHeader(header, token);
     },
     success: function (data) {
-      alert(data);
+      // alert(data);
+      switch (type) {
+        case "nickname": {
+          if (confirm("해당 닉네임은 사용 가능합니다. 사용하시겠습니까?")) {
+            $("#" + type).attr("readonly", "readonly");
+            $("#" + type + "_check").attr("hidden", "hidden");
+            $("#" + type + "_reset").removeAttr("hidden");
+          } else {
+            return false;
+          }
+          break;
+        }
+        case "email": {
+          if (confirm("해당 이메일은 사용가능합니다. 사용하시겠습니까?")) {
+            $("#" + type).attr("readonly", "readonly");
+            $("#" + type + "_check").attr("hidden", "hidden");
+            $("#" + type + "_reset").removeAttr("hidden");
+          } else {
+            return false;
+          }
+          break;
+        }
+      }
     },
     error: function (request, error, data) {
       if ((request.status = "401")) {
@@ -46,9 +81,7 @@ function Email_Form_Check(email) {
 }
 
 function Reset(type) {
-  $("#" + type).attr("readonly", false);
-  $("#" + type + "_check").attr("disabled", false);
-  $("#" + type + "_check").attr("display", "inline-block");
-  $("#" + type + "_reset").attr("disabled", true);
-  $("#" + type + "_reset").attr("display", "none");
+  $("#" + type).removeAttr("readonly");
+  $("#" + type + "_check").removeAttr("hidden");
+  $("#" + type + "_reset").attr("hidden", "hidden");
 }

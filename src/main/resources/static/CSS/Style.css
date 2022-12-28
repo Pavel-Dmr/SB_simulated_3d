@@ -1,3 +1,16 @@
+@keyframes down {
+  0% {
+    transform: translateY(-50px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.nav-fix {
+  position: fixed;
+  animation: down 0.5s ease;
+}
 .header {
   position: relative;
   top: 0;
@@ -8,7 +21,7 @@
 }
 .header .wrap {
   width: 1100px;
-  height: 200px;
+  height: 250px;
   position: relative;
   margin: 0 auto;
 }
@@ -65,14 +78,14 @@
 
 .top_background_side {
   width: 100vw;
-  height: 775px;
+  height: 700px;
   background-color: black;
   position: relative;
 }
 .top_background {
   position: relative;
   width: 1100px;
-  height: 775px;
+  height: 700px;
   background-repeat: no-repeat;
   background-size: cover;
   margin: 0 auto;
@@ -137,10 +150,6 @@
   position: relative;
 }
 
-.form_center {
-  width: 100%;
-}
-
 .main_logo {
   font-family: "nova" !important;
 }
@@ -166,7 +175,6 @@ form > label {
 
 .form-control {
   font-size: 0.5rem !important;
-  margin: auto 10px;
   border-radius: 0 !important;
 }
 
@@ -177,4 +185,41 @@ form > label {
 
 #star {
   color: red;
+}
+
+#email_check,
+#email_reset,
+#nickname_check,
+#nickname_reset {
+  height: 30px !important;
+  line-height: 10px !important;
+  margin: auto 10px;
+  width: 100px;
+}
+
+.h-70 {
+  height: 70% !important;
+}
+.form_box {
+  position: relative;
+}
+.login_tag {
+  width: 80% !important;
+  height: 50px !important;
+}
+.login_form {
+  width: 43%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 7%;
+  border-right: 1px solid;
+}
+
+.sign_form {
+  width: 43%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0%;
 }

@@ -1,37 +1,33 @@
 <!DOCTYPE html>
-<html
-  xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <div th:fragment="header" class="header">
-
     <div class="wrap">
       <!--  -->
       <nav class="navbar navbar-expand-sm">
         <button class="navbar-toggler" type="button" data-toggle="collapse">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/member/login">로그인</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/member/new">회원 가입</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/cart">장바구니</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/order">주문내역</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/members/login">구매후기</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/members/logout">AS 기술지원</a>
-            </li>
-          </ul>
-        </div>
+
+        <ul class="navbar-nav end-0 position-absolute mt-5">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/member/login}">로그인</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/member/new}">회원 가입</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/cart">장바구니</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/order">주문내역</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/review">구매후기</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/support" target="_blank">AS 기술지원</a>
+          </li>
+        </ul>
       </nav>
       <!--  -->
       <nav class="navbar navbar-expand-sm">
@@ -39,31 +35,29 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse">
-          <ul class="navbar-nav mr-auto ml-0">
-            <li class="nav-item">
-              <a href="/" class="navbar-brand"><h1 class="main_logo">NOVA</h1></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/member/login">멤브레인</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/member/new">기계식</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/cart">무접점</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/order">로우프로 파일</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/members/login">키보드 액세서리</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/members/logout">이벤트</a>
-            </li>
-          </ul>
-        </div>
+        <ul class="navbar-nav mt-5 nav-fix">
+          <li class="nav-item me-5">
+            <a href="/" class="navbar-brand"><h1 class="main_logo">NOVA</h1></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/member/login">멤브레인</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/member/new">기계식</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/cart">무접점</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/order">로우프로 파일</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/members/login">키보드 액세서리</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/members/logout">이벤트</a>
+          </li>
+        </ul>
       </nav>
       <div class="right_popup">
         <div class="kakko"></div>
