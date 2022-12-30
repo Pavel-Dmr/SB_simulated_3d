@@ -3,54 +3,68 @@ package com.simulated_3d.Entity;
 import com.simulated_3d.Constant.Order_Status;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-public class Order {
+@Table(name = "order")
+@Getter @Setter
+public class Order  {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue
+    @Column(name = "order_id")
     private Long id;
 
-    private LocalDateTime order_date;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    private LocalDateTime date; //주문일
 
     @Enumerated(EnumType.STRING)
     private Order_Status status;
 
-//     TODO 연관관계 객체
-
-    @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="member_id")
-    private Member member;
-
-    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL)
-    private List<Order_Item> order_item_list= new ArrayList<>();
-
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "delivery_id")
-//    private Delivery delivery;
-
-//      TODO 연관관계 메서드
-
-public void Set_Member(Member member)
-{
-    this.member = member;
-    this.member.getOrder_list().add(this);
-}
-
-public void Add_Order_Item(Order_Item order_item)
-{
-    order_item_list.add(order_item);
-    order_item.setOrder(this);
-}
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL
+            ,orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Order_Item> order_item_list = new ArrayList<>();
 
 
+    public void Add_Order_Item(Order_Item order_item) {
+        order_item_list.add(order_item);
+        order_item.setOrder(this);
+    }
+
+    public static Order Create_Order(Member member, List<Order_Item> order_item_list) {
+        Order order = new Order();
+        order.setMember(member);
+
+        for(Order_Item order_item : order_item_list) {
+            order.Add_Order_Item(order_item);
+        }
 
 
+        order.setStatus(Order_Status.Ready);
+        order.setDate(LocalDateTime.now());
+        return order;
+    }
+
+    public int Get_Total_Price() { //총주문 금액을 구하는 메소드
+        int total_price = 0;
+        for(Order_Item order_item : order_item_list){
+            total_price += order_item.Get_Total_Price();
+        }
+        return total_price;
+    }
+
+    public void Cancel() {
+        this.status = Order_Status.Cancle;
+        for (Order_Item order_item : order_item_list) {
+            order_item.Cancel();
+        }
+        //Item 클래스에서 주문 취소시 주문 수량을 상품의 재고에 더해주는 로직과
+        //주문 상태를 취소 상태로 바꿔 주는 메소드를 구현합니다.
+    }
 }
