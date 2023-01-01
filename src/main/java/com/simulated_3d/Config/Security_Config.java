@@ -1,12 +1,16 @@
 package com.simulated_3d.Config;
 
+import com.simulated_3d.Service.Login_Fail_Service;
 import com.simulated_3d.Service.Member_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,6 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class Security_Config {
 
     private final Member_Service member_service;
+    private final Login_Fail_Service login_fail_service;
     /*
          로그인과정
 
@@ -27,21 +32,24 @@ public class Security_Config {
 
 
     @Bean
-    public SecurityFilterChain FilterChain(HttpSecurity http) throws Exception
+    public SecurityFilterChain FilterChain(HttpSecurity http, AuthenticationManagerBuilder auth) throws Exception
     {
+
+       auth.authenticationProvider(this.daoAuthenticationProvider());
 
         http.formLogin()
                 .loginPage("/member/login")
                 .defaultSuccessUrl("/")
                 .usernameParameter("email")
                 .failureUrl("/member/login/error")
+                .failureHandler(login_fail_service)
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                 .logoutSuccessUrl("/");
 
         http.authorizeRequests()
-                .mvcMatchers("/css/**","/js/**","/img/**","/Font/**").permitAll()
+                .mvcMatchers("/css/**","/js/**","/img/**","/font/**").permitAll()
                 .mvcMatchers("/","/member/**","/item/**","/image/**","/test").permitAll()
                 .mvcMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
@@ -49,6 +57,11 @@ public class Security_Config {
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new  Custom_Authentication_EntryPoint());
+
+
+
+
+
 
         return http.build();
     }
@@ -61,5 +74,17 @@ public class Security_Config {
     public PasswordEncoder Password_Encoder()
     {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public DaoAuthenticationProvider daoAuthenticationProvider()
+    {
+        DaoAuthenticationProvider bean = new DaoAuthenticationProvider();
+
+        bean.setHideUserNotFoundExceptions(false);
+        bean.setUserDetailsService(member_service);
+        bean.setPasswordEncoder(Password_Encoder());
+
+        return bean;
     }
 }

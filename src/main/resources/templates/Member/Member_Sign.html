@@ -1,64 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{Layout/Layout_01}">
   <head>
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-    <script type="text/javascript" th:src="@{/js/Member.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/sign.css}" />
+    <script type="text/javascript" th:src="@{/js/member.js}"></script>
   </head>
-  <!-- 사용자 CSS 추가 -->
-  <th:block layout:fragment="css">
-    <style>
-      .field_error {
-        color: #bd2130;
-      }
-    </style>
-  </th:block>
 
   <!-- 사용자 스크립트 추가 -->
 
   <th:block layout:fragment="script">
     <script th:inline="javascript">
-      $(document).ready(function(){
           var error_message = [[${error_message}]];
           if(error_message != null){
               alert(error_message);
           }
-      });
     </script>
   </th:block>
 
   <div layout:fragment="content">
     <div class="wrap">
-    <form th:action="@{/member/new}" role="form" method="post" th:object="${member_dto}" class="form_center">
-      <label>회원정보 입력</label>
-      <div class="form-group mb-0 row">
-        <label th:for="name" class="col-sm-2 col-form-label"><span id="star">*</span> 이름</label>
-        <input type="text" th:field="*{name}" class="form-control my-auto mx-2 w-25"  />
-        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field_error">Incorrect data</p>
-      </div>
-      <div class="form-group mb-0 row">
-        <label th:for="nickname"  class="col-sm-2 col-form-label"><span id="star">*</span> 닉네임</label>
-        <input type="text" th:field="*{nickname}" class="form-control my-auto mx-2  w-25"  id="nickname" />
-        <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="field_error">Incorrect data</p>
-        <input type="button" id="nickname_check" class="btn btn-outline-primary btn-sm mx-1" value="중복체크" onclick="Form_Check('nickname')" />
-        <input type="button" id="nickname_reset" class="btn btn-outline-danger btn-sm" value="재설정" hidden onclick="Reset('nickname')" />
-      </div>
-      <div class="form-group mb-0 row">
-        <label th:for="email" class="col-sm-2 col-form-label"><span id="star">*</span> 이메일</label>
-        <input type="email" th:field="*{email}" class="form-control my-auto mx-2 w-25" id="email"   />
-        <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field_error">Incorrect data</p>
-        <input type="button" id="email_check" class="btn btn-outline-primary btn-sm mx-1" value="중복체크" onclick="Form_Check('email')" />
-        <input type="button" id="email_reset" class="btn btn-outline-danger btn-sm" value="재설정" hidden onclick="Reset('email')" />
-      </div>
-      <div class="form-group mb-0 row">
-        <label th:for="password" class="col-sm-2 col-form-label"><span id="star">*</span> 비밀번호</label>
-        <input type="password" th:field="*{password}" class="form-control my-auto mx-2 w-25" />
-        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field_error">Incorrect data</p>
-      </div>
-      <div style="text-align: center">
-        <button type="submit" class="btn btn-primary" style="margin-top:30px " >동의하고 가입완료</button>
-      </div>
-    </form>
+      <form th:action="@{/member/new}" role="form" method="post" th:object="${member_dto}" class="form_center" onsubmit="return Sign_Check()">
+        <label>회원정보 입력</label>
+        <div class="form-group mb-0 row">
+          <label th:for="name" class="col-sm-2 col-form-label"><span id="star">*</span> 이름</label>
+          <input type="text" th:field="*{name}" class="form-control my-auto mx-2 w-25" />
+          <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="field_error">Incorrect data</p>
+        </div>
+        <div class="form-group mb-0 row">
+          <label th:for="nickname" class="col-sm-2 col-form-label"><span id="star">*</span> 닉네임</label>
+          <input type="text" th:field="*{nickname}" class="form-control my-auto mx-2 w-25" id="nickname" />
+          <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="field_error">Incorrect data</p>
+          <input type="button" id="nickname_check" class="btn btn-outline-primary btn-sm mx-1" value="중복체크" onclick="Form_Check('nickname')" />
+          <input type="button" id="nickname_reset" class="btn btn-outline-danger btn-sm" value="재설정" hidden onclick="Reset('nickname')" />
+        </div>
+        <div class="form-group mb-0 row">
+          <label th:for="email" class="col-sm-2 col-form-label"><span id="star">*</span> 이메일</label>
+          <input type="email" th:field="*{email}" class="form-control my-auto mx-2 w-25" id="email" />
+          <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field_error">Incorrect data</p>
+          <input type="button" id="email_check" class="btn btn-outline-primary btn-sm mx-1" value="중복체크" onclick="Form_Check('email')" />
+          <input type="button" id="email_reset" class="btn btn-outline-danger btn-sm" value="재설정" hidden onclick="Reset('email')" />
+        </div>
+        <div class="form-group mb-0 row">
+          <label th:for="password" class="col-sm-2 col-form-label"><span id="star">*</span> 비밀번호</label>
+          <input type="password" th:field="*{password}" class="form-control my-auto mx-2 w-25" />
+          <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="field_error">Incorrect data</p>
+        </div>
+        <div style="text-align: center">
+          <button type="submit" class="btn btn-primary" style="margin-top: 30px">동의하고 가입완료</button>
+        </div>
+      </form>
     </div>
   </div>
 </html>

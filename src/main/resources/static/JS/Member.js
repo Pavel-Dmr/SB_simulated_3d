@@ -85,3 +85,13 @@ function Reset(type) {
   $("#" + type + "_check").removeAttr("hidden");
   $("#" + type + "_reset").attr("hidden", "hidden");
 }
+
+function Sign_Check() {
+  if ($("#nickname_check").attr("hidden") == "hidden" && $("#email_check").attr("hidden") == "hidden") {
+    alert("정상 가입되었습니다.");
+    return true;
+  } else {
+    alert("닉네임 또는 이메일이 중복 확인이 되지 않았습니다.");
+    return false;
+  }
+}

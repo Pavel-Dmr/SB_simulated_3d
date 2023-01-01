@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Nova+Mono&display=swap");
+
 @keyframes down {
   0% {
     transform: translateY(-50px);
@@ -17,7 +19,6 @@
   font-size: 12px;
   width: 100vw;
   z-index: 9999;
-  color: white;
 }
 .header .wrap {
   width: 1100px;
@@ -29,17 +30,38 @@
 .header nav {
   position: relative;
   width: 100%;
-  color: white;
 }
 
 .header nav:nth-child(1) {
   left: 0;
 }
 .header nav:nth-child(2) {
-  top: 20px;
+  top: 100px;
   right: 0;
   font-size: 15px;
   padding: 0 0 !important;
+  transition: all 0.3s;
+}
+
+.header nav.fixed {
+  position: fixed;
+  display: flex;
+  background-color: white;
+  top: 0px;
+  height: 70px;
+  justify-content: center;
+}
+
+.header nav * {
+  color: white !important;
+}
+
+.header nav.fixed * {
+  color: black !important;
+}
+
+.header nav.fixed ul {
+  margin-top: 2.5rem !important;
 }
 
 .content .wrap {
@@ -151,7 +173,7 @@
 }
 
 .main_logo {
-  font-family: "nova" !important;
+  font-family: "Nova Mono", monospace;
 }
 
 .form-group {

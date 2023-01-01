@@ -67,9 +67,10 @@ public class Member_Controller {
     }
 
     @GetMapping(value = "/login/error")
-    public String Member_Login_Error(Model model)
+    public String Member_Login_Error(Model model,@RequestParam(value = "error")boolean error,@RequestParam(value = "exception") String exception)
     {
-        model.addAttribute("error_message","아이디와 비번을 다시 확인해주세요.");
+        model.addAttribute("error",error);
+        model.addAttribute("exception",exception);
         return "Member/Member_Login";
     }
 

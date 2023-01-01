@@ -9,23 +9,35 @@
         </button>
 
         <ul class="navbar-nav end-0 position-absolute mt-5">
-          <li class="nav-item">
+          <p th:text="${#authentication.name}"></p>
+          <p th:text="${#authentication.authorities}"></p>
+          <p th:text="${#authentication.authenticated}"></p>
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+            <a class="nav-link" th:href="@{/admin/item/new}">상품 등록</a>
+          </li>
+          <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+            <a class="nav-link" th:href="@{/admin/item}">상품 관리</a>
+          </li>
+          <li class="nav-item" sec:authorize="isAnonymous()">
             <a class="nav-link" th:href="@{/member/login}">로그인</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" sec:authorize="isAnonymous()">
             <a class="nav-link" th:href="@{/member/new}">회원 가입</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/cart">장바구니</a>
+          <li class="nav-item" sec:authorize="isAuthenticated()">
+            <a class="nav-link" th:href="@{/member/logout}">로그아웃</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/order">주문내역</a>
+            <a class="nav-link" th:href="@{/cart}">장바구니</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/review">구매후기</a>
+            <a class="nav-link" th:href="@{/order}">주문내역</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/support" target="_blank">AS 기술지원</a>
+            <a class="nav-link" th:href="@{/review}">구매후기</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/support}" target="_blank">AS 기술지원</a>
           </li>
         </ul>
       </nav>
@@ -36,26 +48,26 @@
         </button>
 
         <ul class="navbar-nav mt-5 nav-fix">
-          <li class="nav-item me-5">
-            <a href="/" class="navbar-brand"><h1 class="main_logo">NOVA</h1></a>
+          <li class="nav-item me-5" style="margin-top: 5px">
+            <a href="/" class="navbar-brand d-flex"><h1 class="main_logo">NOVA</h1></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/member/login">멤브레인</a>
+            <a class="nav-link" th:href="@{/}">멤브레인</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/member/new">기계식</a>
+            <a class="nav-link" th:href="@{/}">기계식</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/cart">무접점</a>
+            <a class="nav-link" th:href="@{/}">무접점</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/order">로우프로 파일</a>
+            <a class="nav-link" th:href="@{/}">로우프로 파일</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/members/login">키보드 액세서리</a>
+            <a class="nav-link" th:href="@{/}">키보드 액세서리</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/members/logout">이벤트</a>
+            <a class="nav-link" th:href="@{/}">이벤트</a>
           </li>
         </ul>
       </nav>
