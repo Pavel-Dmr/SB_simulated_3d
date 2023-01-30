@@ -23,7 +23,7 @@ public class Item {
     @Column(nullable = false)
     private int price;
 
-    @Column(nullable = false)
+    @Column(nullable = false )
     private int stock_number;
 
     @Lob

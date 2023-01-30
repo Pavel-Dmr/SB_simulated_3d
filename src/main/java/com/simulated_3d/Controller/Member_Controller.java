@@ -30,6 +30,12 @@ public class Member_Controller {
     private final PasswordEncoder password_encoder;
 
 
+    /*
+        @회원가입 합니다
+        model
+        member_dto 모델 등록
+        return Member_Sign.html
+    */
     @GetMapping(value = "/new")
     public String Member_Sign(Model model)
     {
@@ -37,6 +43,20 @@ public class Member_Controller {
         return "Member/Member_Sign";
     }
 
+    /*
+        @회원가입 등록 요청
+         member_dto , binding_result , model
+         if - 데이터 바인딩시 에러가 있으면
+            return 다시 폼으로 돌려보냄
+        try
+            member 생성 ( member_dto ,password_encoder);
+            member 저장
+        catch
+            에러메시지 - 모델 등록
+            return 다시 폼으로 돌려보냄
+        success
+            return 이전 페이지로 돌아갑니다
+    */
     @PostMapping(value = "/new")
     public String Member_Sign(@Valid Member_Dto member_dto, BindingResult binding_result, Model model)
     {
@@ -60,12 +80,24 @@ public class Member_Controller {
 
     }
 
+    /*
+        @로그인 합니다
+        인자 없음
+        return  Member_Login.html
+    */
     @GetMapping(value = "/login")
-    public String Member_Login(Model model)
+    public String Member_Login()
     {
         return "Member/Member_Login";
     }
 
+    /*
+        @로그인 도중 에러 발생
+         model / error / exception
+         error 모델 등록
+         exception 모델 등록
+         return Member_Login.html
+    */
     @GetMapping(value = "/login/error")
     public String Member_Login_Error(Model model,@RequestParam(value = "error")boolean error,@RequestParam(value = "exception") String exception)
     {

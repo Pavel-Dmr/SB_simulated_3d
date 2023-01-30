@@ -50,6 +50,7 @@
   top: 0px;
   height: 70px;
   justify-content: center;
+  border-bottom: black 2px;
 }
 
 .header nav * {
@@ -160,7 +161,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   height: 50px;
   z-index: 10;
-  transition: all 0.5s;
+  transition: all 1s;
 }
 
 .catagory_group_01 > div:hover .bottom_background {

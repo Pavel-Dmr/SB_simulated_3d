@@ -1,23 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{Layout/Layout_01}">
   <head>
-
-    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/member_login.css}" />
     <script type="text/javascript" th:src="@{/js/member.js}"></script>
   </head>
   <th:block layout:fragment="script">
-    <script th:inline="javascript">
-          var error = [[${error}]];
-          var exception = [[${exception}]];
-          if(error == true){
-              alert(exception);
-          }
-    </script>
+
   </th:block>
   <!--  -->
   <div layout:fragment="content">
     <div class="wrap">
-      <form role="form" method="post" th:action="@{/member/login}" class="h-70">
+      <form role="form" method="post" th:action="@{/member/login}" class="h-70" onsubmit="return Login_Check()">
         <h6>로그인</h6>
         <div class="form_box h-70" style="border: solid 1px">
           <!--              -->
@@ -27,11 +20,14 @@
               가입하신 아이디와 비밀번호를 입력해주세요.<br />
               비밀번호는 대소문자를 구분합니다.
             </p>
-            <input type="email" name="email" class="form-control login_tag" placeholder="MEMBER ID" />
-            <input type="password" name="password" class="form-control login_tag mt-1" placeholder="PASSWORD" />
-            <button class="btn btn-primary form-control login_tag mt-2 fs-5" type="submit">LOG-IN</button>
+            <input id="id" type="email" name="email" class="form-control login_tag" placeholder="MEMBER ID" />
+            <input  id="password" type="password" name="password" class="form-control login_tag mt-1" placeholder="PASSWORD" />
+            <button class="btn btn-primary form-control login_tag mt-2 fs-5" type="submit" >LOG-IN</button>
             <br />
-            <div for="" style="font-size: 5px; display: flex" class="mt-2"><input type="checkbox" value="security_connect" /><span>보안접속</span></div>
+            <div for="" style="font-size: 5px; display: flex" class="mt-2"><input type="checkbox" id="save_id" /><span>아이디 기억하기</span></div>
+            <div for="" style="font-size: 5px; display: flex" class="mt-2"><input type="checkbox" id="security_connect" /><span>보안접속</span></div>
+
+
           </div>
           <div class="sign_form">
             <label>회원가입</label>

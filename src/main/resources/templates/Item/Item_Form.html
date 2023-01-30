@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{Layout/Layout_01}">
+  <head>
+    <link rel="stylesheet" th:href="@{/css/item_form.css}" />
+  </head>
+
+  <!-- 사용자 스크립트 추가 -->
+
+  <th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+      function Bind_Dom_Event()
+      {
+        $(".custom-file-input").on("change",function()
+        {
+          let file_name = $(this).val().split("\\").pop();
+          let file_ext = file_name.substring(file_name.lastIndexOf(".")+1);
+          file_ext = file_ext.toLowerCase();
+
+          if(file_ext != "jpg" && file_ext != "jpeg" && file_ext != "gif" && file_ext != "png" && file_ext != "bmp")
+          {
+            alert("이미지 파일만 등록이 가능합니다");
+            return;
+          }
+
+          $(this).siblings(".custom-file-label").html(file_name);
+        });
+      }
+    </script>
+  </th:block>
+
+  <div layout:fragment="content">
+    <div class="wrap">
+    <form   role="form" method="post" enctype="multipart/form-data" th:object="${item_dto}">
+      <p class="h6">
+        상품 등록
+      </p>
+<!--      <input type="hidden" th:field="*{item_img_ids}">-->
+      <input type="hidden" th:field="*{id}">
+
+      <div class="form-group mb-0 row">
+        <label for="sell_status" class="col-sm-2 col-form-label">상태 </label>
+        <select th:field="*{sell_status}" class="custom-select ms-2 w-25 my-auto ">
+          <option value="SELL">판매중</option>
+          <option value="SOLD_OUT">품절</option>
+        </select>
+      </div>
+      <!--  -->
+      <div class="form-group mb-0 row">
+          <label th:for="name" class="col-sm-2 col-form-label">상품명</label>
+        <input type="text" th:field="*{name}" class="form-control mx-2 my-auto w-50 h-75 " placeholder="상품명을 입력해주세요.">
+
+      </div>
+      <!--  -->
+
+      <div class="form-group mb-0 row">
+          <label th:for="price" class="col-sm-2 col-form-label">가격</label>
+        <input type="number" th:field="*{price}" class="form-control mx-2 my-auto w-50 h-75" placeholder="상품의 가격을 입력해주세요">
+      </div>
+      <!--  -->
+      <div class="form-group mb-0 row">
+          <label th:for="stock_number" class="col-sm-2 col-form-label">재고</label>
+        <input type="number" th:field="*{stock_number}" class="form-control mx-2 my-auto w-50 h-75" placeholder="상품의 재고를 입력해주세요">
+
+      </div>
+      <!--  -->
+      <div class="form-group mb-0 row">
+          <label th:for="detail"l class="col-sm-2 col-form-label">상품 상세 설명</label>
+        <textarea  th:field="*{detail}" class="form-control mx-2 my-auto w-75 h-75" aria-label="With textarea">
+        </textarea>
+      </div>
+      <!--  -->
+      <div th:if="${#lists.isEmpty(item_dto.item_img_dtos)}">
+        <div class="form-group" th:each="num: ${#numbers.sequence(1,5)}">
+          <div class="custom-file img-div">
+            <input type="file" class="custom-file-input" name="item_img_file">
+            <label class="custom-file-label" th:text="상품이미지 + ${num}"></label>
+          </div>
+        </div>
+      </div>
+
+      <div th:if="${not #lists.isEmpty(item_dto.item_img_dtos)}">
+        <div class="form-group" th:each="item_img_dto , status: ${item_dto.item_img_dtos}">
+          <div class="custom-file img-div">
+            <input type="file" class="custom-file-input" name="item_img_file">
+            <input type="hidden" name="item_img_ids" th:value="${item_img_dto.id}">
+<!--            리스트 item_img_ids 값으로 들어갑니다 -->
+            <label class="custom-file-label" th:text="${not #strings.isEmpty(item_img_dto.ori_name)} ? ${item_img_dto.ori_name} : '상품이미지' + ${status.index+1}"></label>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <div th:if="${#strings.isEmpty(item_dto.id)}" style="text-align:center">
+        <button th:formaction="@{/item/admin/new}" type="submit" class="btn btn-primary">저장</button>
+      </div>
+      <div th:unless="${#strings.isEmpty(item_dto.id)}" style="text-align:center">
+        <button th:formaction="@{'/item/admin/' + ${item_dto.id}}" type="submit" class="btn btn-primary">수정</button>
+      </div>
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+
+    </form>
+    </div>
+  </div>
+</html>

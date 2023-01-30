@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class Web_Mvc_Config implements WebMvcConfigurer {
 
-    @Value("${upload_path") // 프로퍼티 값을 읽어옵니다.
+    @Value("${upload_path}") // 프로퍼티 값을 읽어옵니다.
     String upload_path;
 
     @Override

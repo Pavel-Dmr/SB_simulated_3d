@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class Member {
+public class Member extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -53,7 +53,7 @@ public class Member {
         String password = password_encoder.encode(member_dto.getPassword());
         member.setPassword(password);
 
-        member.setRole_status(Role_Status.USER);
+        member.setRole_status(Role_Status.ADMIN);
 
         return member;
     }

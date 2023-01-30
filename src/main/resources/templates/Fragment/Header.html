@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <div th:fragment="header" class="header">
+
     <div class="wrap">
       <!--  -->
       <nav class="navbar navbar-expand-sm">
@@ -9,14 +10,24 @@
         </button>
 
         <ul class="navbar-nav end-0 position-absolute mt-5">
-          <p th:text="${#authentication.name}"></p>
-          <p th:text="${#authentication.authorities}"></p>
-          <p th:text="${#authentication.authenticated}"></p>
+          <li class="nav-item me-5">
+            <label>인증 아이디 </label>
+            <p th:text="${#authentication.name}"></p>
+          </li>
+          <li class="nav-item me-5">
+            <label>권한</label>
+            <p th:text="${#authentication.authorities}"></p>
+          </li>
+          <li class="nav-item me-5">
+            <label>인증 상태 </label>
+            <p th:text="${#authentication.authenticated}"></p>
+          </li>
+
           <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-            <a class="nav-link" th:href="@{/admin/item/new}">상품 등록</a>
+            <a class="nav-link" th:href="@{/item/admin/new}">상품 등록</a>
           </li>
           <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-            <a class="nav-link" th:href="@{/admin/item}">상품 관리</a>
+            <a class="nav-link" th:href="@{/item/admin/list}">상품 관리</a>
           </li>
           <li class="nav-item" sec:authorize="isAnonymous()">
             <a class="nav-link" th:href="@{/member/login}">로그인</a>
@@ -31,7 +42,7 @@
             <a class="nav-link" th:href="@{/cart}">장바구니</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/order}">주문내역</a>
+            <a class="nav-link" th:href="@{/order/list}">주문내역</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" th:href="@{/review}">구매후기</a>
@@ -42,12 +53,12 @@
         </ul>
       </nav>
       <!--  -->
-      <nav class="navbar navbar-expand-sm">
+      <nav class="navbar navbar-expand-sm ">
         <button class="navbar-toggler" type="button" data-toggle="collapse">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <ul class="navbar-nav mt-5 nav-fix">
+        <ul class="navbar-nav nav-fix">
           <li class="nav-item me-5" style="margin-top: 5px">
             <a href="/" class="navbar-brand d-flex"><h1 class="main_logo">NOVA</h1></a>
           </li>

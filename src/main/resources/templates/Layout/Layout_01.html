@@ -15,21 +15,24 @@
     <link rel="stylesheet" th:href="@{/css/Style.css}" />
     <link rel="stylesheet" th:href="@{/css/jquery.bxslider.css}" />
 
+
     <!-- 사용자 css,js -->
+    <th:block th:fragment="script">
+      <script>
+        let error_message = "[[${error_message}]]";
+        if(error_message != "" )
+        {
+         alert(error_message);
+        }
+</script>
+      </script>
+    </th:block>
     <th:block layout:fragment="css">
       <style>
         .field_error {
           color: #bd2130;
         }
       </style>
-    </th:block>
-    <th:block layout:fragment="script">
-      <script th:inline="javascript">
-            var error_message = [[${error_message}]];
-            if(error_message != null){
-                alert(error_message);
-            }
-      </script>
     </th:block>
     <!-- CSS only -->
     <!-- CSS only -->
@@ -46,7 +49,9 @@
   <body>
     <div th:replace="Fragment/Header::header"></div>
 
-    <div layout:fragment="content" class="content"></div>
+    <div layout:fragment="content" class="content">
+
+    </div>
 
     <div th:replace="Fragment/Footer::footer"></div>
   </body>

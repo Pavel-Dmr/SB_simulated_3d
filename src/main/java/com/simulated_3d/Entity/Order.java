@@ -10,16 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order")
-@Getter @Setter
-public class Order  {
+@Getter
+@Table(name = "orders")
+@Setter
+public class Order extends Base  {
 
     @Id @GeneratedValue
-    @Column(name = "order_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
     private Member member;
 
     private LocalDateTime date; //주문일
@@ -27,16 +26,26 @@ public class Order  {
     @Enumerated(EnumType.STRING)
     private Order_Status status;
 
+
+
+//    ============================= 연관관계 필드
+
+    // 케스케이드타입.올 = 영속선 전이 , 고아객체 삭제 - 주문 취소되면 주문 아이템 정보도 삭제
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL
             ,orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Order_Item> order_item_list = new ArrayList<>();
+    private List<Order_Item> order_items = new ArrayList<>();
 
 
+
+//    ============================= 메서드
+
+    //    주문 아이템을 추가
     public void Add_Order_Item(Order_Item order_item) {
-        order_item_list.add(order_item);
+        order_items.add(order_item);
         order_item.setOrder(this);
     }
 
+    // 주문 생성 - 주문자 설정,
     public static Order Create_Order(Member member, List<Order_Item> order_item_list) {
         Order order = new Order();
         order.setMember(member);
@@ -51,20 +60,26 @@ public class Order  {
         return order;
     }
 
-    public int Get_Total_Price() { //총주문 금액을 구하는 메소드
+    // 총 주문 가격 리턴
+    public int Get_Total_Price() {
         int total_price = 0;
-        for(Order_Item order_item : order_item_list){
+        for(Order_Item order_item : order_items){
             total_price += order_item.Get_Total_Price();
         }
         return total_price;
     }
 
+    /*
+        @주문을 취소합니다
+        이것의 상태을 Cancle상태로 변경
+        for each - order_items
+            order_item 취소
+    */
     public void Cancel() {
         this.status = Order_Status.Cancle;
-        for (Order_Item order_item : order_item_list) {
+        for (Order_Item order_item : order_items) {
             order_item.Cancel();
         }
-        //Item 클래스에서 주문 취소시 주문 수량을 상품의 재고에 더해주는 로직과
-        //주문 상태를 취소 상태로 바꿔 주는 메소드를 구현합니다.
+
     }
 }

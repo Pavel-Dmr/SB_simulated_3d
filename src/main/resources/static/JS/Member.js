@@ -1,3 +1,15 @@
+// 상시
+
+$(function () {
+
+  let id = Get_Cookie("cookie_id");
+  console.log(id);
+  if (id) {
+    $("#id").val(id);
+    $("#save_id").attr("checked", true);
+  }
+});
+
 // 메서드 라인
 function Form_Check(type) {
   var token = $("meta[name='_csrf']").attr("content");
@@ -94,4 +106,60 @@ function Sign_Check() {
     alert("닉네임 또는 이메일이 중복 확인이 되지 않았습니다.");
     return false;
   }
+}
+
+function Login_Check() {
+  let id_check = $("#save_id").is(":checked");
+  let id = $("#id").val();
+  let password = $("#password").val();
+  let period = 30;
+
+  if (id == "") {
+    alert("이메일을 입력 해주세요");
+    return false;
+  } else if (password == "") {
+    alert("비밀번호을 입력 해주세요");
+    return false;
+  }
+
+  if (id_check) {
+    Set_Cookie("cookie_id", id, period);
+  } else {
+    Delete_Cookie("cookie_id");
+  }
+
+  return true;
+}
+
+function Set_Cookie(cookie_name, value, period) {
+  let date = new Date();
+  date.setDate(date.getDate() + period);
+  let cookie_value = escape(value) + (period == null ? "" : "; expires=" + date.toGMTString()  );
+  document.cookie = cookie_name + "=" + cookie_value;
+}
+
+function Get_Cookie(cookie_name) {
+  cookie_name = cookie_name + "=";
+
+  let cookie = document.cookie;
+  let start = cookie.indexOf(cookie_name);
+  let cookie_value = "";
+
+  if (start != -1) {
+    start += cookie_name.length;
+    var end = cookie.indexOf(";", start);
+  }
+  if (end == -1) {
+    end = cookie.length;
+  }
+  cookie_value = cookie.substring(start, end);
+
+  return unescape(cookie_value);
+}
+
+// 현재 일보다 더 이전으로 설정하면 자동으로 만료됩니다.
+function Delete_Cookie(cookie_name) {
+  let date = new Date();
+  date.setDate(date.getDate());
+  document.cookie = cookie_name + "=" + "; expires=" + date.toGMTString();
 }

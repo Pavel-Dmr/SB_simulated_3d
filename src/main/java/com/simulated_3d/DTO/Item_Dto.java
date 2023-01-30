@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -31,9 +32,10 @@ public class Item_Dto {
 
     private Sell_Status sell_status;
 
-    private List<Item_Img_Dto> item_img_dto_list = new ArrayList<>();
+    private List<Item_Img_Dto> item_img_dtos = new ArrayList<>();
 
-    private List<Long> itemImgIds;
+    private List<Long> item_img_ids = new ArrayList<>();
+
 
     private static ModelMapper model_mapper = new ModelMapper();
 

@@ -5,30 +5,38 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-public class Order_Item {
+public class Order_Item extends Base{
 
     @Id
     @GeneratedValue
-    @Column(name = "order_item_id")
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private Order order;
 
     private int price;
 
     private int count;
 
-    public static Order_Item Update_Order_Item(Item item, int count){
+
+
+
+//  ================================== 연관관계 필드 지연로딩 방식으로
+
+    //성능상의 문제때문에 지연로딩 방식(조회시 해당 엔티티만 하도록)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Item item;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
+
+
+
+//    =============================== 메서드
+
+    public static Order_Item Create_Order_Item(Item item, int count){
         Order_Item order_item = new Order_Item();
         order_item.setItem(item);
         order_item.setCount(count);
