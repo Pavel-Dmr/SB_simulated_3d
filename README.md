@@ -8,13 +8,20 @@
 	<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=CSS3&logoColor=white" />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=JavaScript&logoColor=white" />
   <br>
-  
+  <br>
+  <p>🎁 Framework 🎁</p>
+   <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white" />
+  <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=Spring Security&logoColor=white" />
+  <br>
+  <br>
+  <p>📱 DataBase 📱<p>
   <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white" />
+  <img src="https://img.shields.io/badge/MariaDB-003545?style=flat&logo=MariaDB&logoColor=white" />
   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=PostgreSQL&logoColor=white" />
   <br>
-  <img src="https://img.shields.io/badge/Spring-6DB33F?style=flat&logo=Spring&logoColor=white" />
-  <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white" />
-  <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat&logo=Spring Security&logoColor=white" />
+  <br>
+  
+  <p>💻 Template Engine 💻</p>
   <img src="https://img.shields.io/badge/Thymeleaf-005F0F?style=flat&logo=Thymeleaf&logoColor=white" />
   <br>
   <br>
@@ -53,7 +60,7 @@
   # 2장 설치 및 실행 방법
       스프링부트 버전 : 2.7.6
       Java 버전 : Java SDK 11
-      의존성 매니지먼트 : 1.0.15
+      의존성 관리 버전 : 1.0.15
       
       의존성 목록
           Spring Data JDBC
@@ -84,61 +91,10 @@
   
   # 4장 구현
   
-  ### 직접 구현한 기능
-  
-  1. 로그인 구현 
-      - Member_Controller
-      - Member_Dto
-      - Member
-      - Member_Service
-      - Member_Repository
-      - Member_Login.html 
-    
-  2. 상품 등록 및 수정
-      - Item_Controller
-      - Item_Dto , Item_Img_Dto
-      - Item , Item_Img
-      - Item_Service , Item_Img_Service
-      - Item_Repository , Item_Img_Repository
-      - Item_Form.html , Item_View.html
-  
-  3. 상품 주문 및 취소
-      - Order_Controller
-      - Order_Dto , Order_Hist_Dto , Order_Item_Dto
-      - Order , Order_Item
-      - Order_Service
-      - Order_Repository , Order_Item_Repository
-      - Order_Hist.html
-      
-  4. 장바구니 구현
-      - Cart_Controller
-      - Cart_Item_Dto , Cart_Order_Dto , Cart_Detail_Dto
-      - Cart , Cart_Item
-      - Cart_Service
-      - Cart_Repository , Cart_Item_Respository
-      - Cart.html
-      
-  5. 보안 커스텀
-      - Login_Fail_Service
-      
-### 제공된 기능
-    
-  1. DB 쿼리문 처리
-     - JpaRepository 인터페이스
-
-  2. 디버깅 로그 출력
-      - lombok.extern.slf4j.Slf4j;
-      - logback.xml
-
-  3. 빌드 툴
-      - Gradle
-  
-  4. 보안
-      - Spring Security
-      - Security_Config
- 
-    
-     
+  - 회원 가입 / 로그인 / 아이디 기억하기
+  - 상품 등록 / 수정 / 삭제
+  - 상품 주문 / 취소
+  - 장바구니 기능
    
     
   ---
