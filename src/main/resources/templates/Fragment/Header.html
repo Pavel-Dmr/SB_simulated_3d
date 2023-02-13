@@ -24,10 +24,10 @@
           </li>
 
           <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-            <a class="nav-link" th:href="@{/item/admin/new}">상품 등록</a>
+            <a class="nav-link" th:href="@{/admin/item/new}">상품 등록</a>
           </li>
           <li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
-            <a class="nav-link" th:href="@{/item/admin/list}">상품 관리</a>
+            <a class="nav-link" th:href="@{/admin/item/list}">상품 관리</a>
           </li>
           <li class="nav-item" sec:authorize="isAnonymous()">
             <a class="nav-link" th:href="@{/member/login}">로그인</a>
@@ -81,6 +81,10 @@
             <a class="nav-link" th:href="@{/}">이벤트</a>
           </li>
         </ul>
+        <form class="form-inline my-2 my-lg-0 d-flex" th:action="@{/}" method="get" role="search">
+          <input name="search_query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-2" type="submit">검색</button>
+        </form>
       </nav>
       <div class="right_popup">
         <div class="kakko"></div>

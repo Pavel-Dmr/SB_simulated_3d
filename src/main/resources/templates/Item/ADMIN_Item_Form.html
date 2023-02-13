@@ -91,10 +91,10 @@
       </div>
       <!--  -->
       <div th:if="${#strings.isEmpty(item_dto.id)}" style="text-align:center">
-        <button th:formaction="@{/item/admin/new}" type="submit" class="btn btn-primary">저장</button>
+        <button th:formaction="@{/admin/item/new}" type="submit" class="btn btn-primary">저장</button>
       </div>
       <div th:unless="${#strings.isEmpty(item_dto.id)}" style="text-align:center">
-        <button th:formaction="@{'/item/admin/' + ${item_dto.id}}" type="submit" class="btn btn-primary">수정</button>
+        <button th:formaction="@{'/admin/item/' + ${item_dto.id}}" type="submit" class="btn btn-primary">수정</button>
       </div>
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 

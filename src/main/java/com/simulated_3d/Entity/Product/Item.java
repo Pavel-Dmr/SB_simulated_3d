@@ -2,6 +2,7 @@ package com.simulated_3d.Entity.Product;
 
 import com.simulated_3d.Constant.Sell_Status;
 import com.simulated_3d.DTO.Item_Dto;
+import com.simulated_3d.Entity.Base;
 import com.simulated_3d.Exception.OutOfStockException;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class Item {
+public class Item extends Base {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

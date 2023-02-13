@@ -1,11 +1,13 @@
 package com.simulated_3d.DTO;
 
 import com.simulated_3d.Constant.Sell_Status;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Item_Search_Dto {
 
     /*

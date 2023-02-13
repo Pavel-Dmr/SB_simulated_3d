@@ -19,7 +19,7 @@ public abstract class Base extends Base_Time{
     */
     @CreatedBy
     @Column(updatable = false)
-    private String create_by;
+    private String created_by;
 
     /*
         @수정자을 저장, 마지막으로 수정한 사람으로 덮어쓰워집니다.

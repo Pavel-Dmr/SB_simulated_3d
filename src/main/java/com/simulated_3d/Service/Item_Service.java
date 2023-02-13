@@ -3,6 +3,7 @@ package com.simulated_3d.Service;
 import com.simulated_3d.DTO.Item_Dto;
 import com.simulated_3d.DTO.Item_Img_Dto;
 import com.simulated_3d.DTO.Item_Search_Dto;
+import com.simulated_3d.DTO.Main_Item_Dto;
 import com.simulated_3d.Entity.Product.Item;
 import com.simulated_3d.Entity.Product.Item_Img;
 import com.simulated_3d.Repository.Item_Img_Repository;
@@ -18,9 +19,9 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional
-@Slf4j
 @RequiredArgsConstructor
 public class Item_Service {
 
@@ -149,7 +150,7 @@ public class Item_Service {
         return item_dto;
     */
     @Transactional(readOnly = true)
-    public Item_Dto Get_ItemDTL(Long item_id)
+    public Item_Dto Get_Item(Long item_id)
     {
         List<Item_Img> item_imgs = item_img_repository.findByItem_IdOrderByIdAsc(item_id);
 
@@ -173,11 +174,20 @@ public class Item_Service {
         return item_dto;
     }
 
+//    리포지토리 메서드 라인 ========================
     @Transactional(readOnly = true)
-    public Page<Item> Get_Admin_ItemPage(Item_Search_Dto item_search_dto, Pageable pageable)
+    public Page<Item> getAdminItemPage(Item_Search_Dto item_search_dto, Pageable pageable)
     {
-            return null;
+        return item_repository.getAdminItemPageBy(item_search_dto,pageable);
     }
+
+    @Transactional(readOnly = true)
+    public Page<Main_Item_Dto> getMainItemPage(Item_Search_Dto item_search_dto, Pageable pageable)
+    {
+        return item_repository.getMainItemPageBy(item_search_dto,pageable);
+    }
+
+
 
 
 
