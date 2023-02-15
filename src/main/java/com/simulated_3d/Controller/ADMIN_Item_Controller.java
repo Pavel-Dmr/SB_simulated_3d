@@ -1,5 +1,6 @@
 package com.simulated_3d.Controller;
 
+import com.simulated_3d.Constant.Sell_Status;
 import com.simulated_3d.DTO.Item_Dto;
 import com.simulated_3d.DTO.Item_Search_Dto;
 import com.simulated_3d.Entity.Product.Item;
@@ -173,8 +174,12 @@ public class ADMIN_Item_Controller {
     @GetMapping(value = {"/list" ,"/list/{page}"})
     public String ADMIN_Item_List(Item_Search_Dto item_search_dto, @PathVariable("page") Optional<Integer> page, Model model)
     {
-        log.debug(item_search_dto.getDate_type());
-        Pageable pageable = PageRequest.of(page.orElse(0), 3);
+        if(item_search_dto == null)
+        {
+            item_search_dto = new Item_Search_Dto("all", Sell_Status.SELL,"name","");
+        }
+
+        Pageable pageable = PageRequest.of(page.orElse(0), 10);
         Page<Item> items = item_service.getAdminItemPage(item_search_dto, pageable);
 
         model.addAttribute("items", items);

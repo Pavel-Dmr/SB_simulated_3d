@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
-public interface Item_Repository extends JpaRepository<Item,Long>,QuerydslPredicateExecutor<Item>, Item_Repository_Custom{
+@Repository
+public interface Item_Repository extends JpaRepository<Item,Long>,QuerydslPredicateExecutor<Item> ,Item_Repository_Custom{
 
 
     List<Item> findByName(String name);

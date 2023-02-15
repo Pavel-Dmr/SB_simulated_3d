@@ -27,34 +27,7 @@ public class TEST_Java {
 
         String reg_time = "1d";
 
-        LocalDateTime date_time = LocalDateTime.now();
-
-        if (StringUtils.equals("all", reg_time)) {
-            log.debug("ALL 처리됨");
-            return;
-        }
-
-        int num = Integer.parseInt(reg_time.substring(0, reg_time.length() - 1));
-        char type = reg_time.charAt(reg_time.length() - 1);
-
-        switch (type) {
-            case 'd':
-                date_time = date_time.minusDays(num);
-                break;
-            case 'w':
-                date_time = date_time.minusWeeks(num);
-                break;
-            case 'm':
-                date_time = date_time.minusMonths(num);
-                break;
-            case 'y':
-                date_time = date_time.minusYears(num);
-                break;
-        }
-
-
-        log.debug("시간 처리됨");
-        return;
+        Reg_Time_After("1d");
     }
 
 
@@ -68,6 +41,7 @@ public class TEST_Java {
 
         if(StringUtils.equals("all",reg_time))
         {
+            log.debug("all 체크");
             return  (BooleanExpression) null;
         }
 
@@ -90,6 +64,7 @@ public class TEST_Java {
                 break;
         }
 
+        log.debug("시간 체크 " + date_time);
         return QItem.item.reg_time.after(date_time);
     }
 }

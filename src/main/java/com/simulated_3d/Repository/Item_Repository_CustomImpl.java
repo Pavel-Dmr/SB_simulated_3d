@@ -1,7 +1,6 @@
 package com.simulated_3d.Repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.simulated_3d.Constant.Sell_Status;
@@ -11,26 +10,26 @@ import com.simulated_3d.DTO.QMain_Item_Dto;
 import com.simulated_3d.Entity.Product.Item;
 import com.simulated_3d.Entity.Product.QItem;
 import com.simulated_3d.Entity.Product.QItem_Img;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
-public class Item_Repository_Custom_Impl implements Item_Repository_Custom{
+@Repository
+@Transactional
+@RequiredArgsConstructor
+public class Item_Repository_CustomImpl implements Item_Repository_Custom{
 
-    private JPAQueryFactory query_factory;
-
-    public Item_Repository_Custom_Impl(EntityManager em)
-    {
-        this.query_factory = new JPAQueryFactory(em);
-    }
+    private final JPAQueryFactory query_factory;
 
     BooleanBuilder Admin_Search(Item_Search_Dto item_search_dto)
     {
@@ -54,14 +53,14 @@ public class Item_Repository_Custom_Impl implements Item_Repository_Custom{
     /*
         상품 등록 시간에 따른 조건 분류
     */
-    Predicate Reg_Time_After(String reg_time)
+    BooleanExpression Reg_Time_After(String reg_time)
     {
         LocalDateTime date_time = LocalDateTime.now();
 
 
         if(StringUtils.equals("all",reg_time))
         {
-            return  (Predicate) null;
+            return  null;
         }
 
         int num = Integer.parseInt(reg_time.substring(0,reg_time.length()-1));
@@ -116,17 +115,16 @@ public class Item_Repository_Custom_Impl implements Item_Repository_Custom{
 
 //    TODO 오버라이드 ===============
     /*
-        검색 기준에 비해 분류 되어, 어떤 상품들을 가져와야하는지 탐색하는 메서드
+        검색 기준에 비해 분류 되어, 어떤 상품들을 가져와야하는지 탐색하는 메서드 ( 판매 상태 , 등록 시간, 상품명, 글쓴이(생성자) )
     */
     @Override
-    public Page<Item> getAdminItemPageBy(Item_Search_Dto item_search_dto, Pageable pageable)
+    public Page<Item> getAdminItemPage(Item_Search_Dto item_search_dto, Pageable pageable)
     {
+
 //        게시물 정보을 리스트로 반환
         List<Item> content = query_factory
                 .selectFrom(QItem.item)
-                .where(Reg_Time_After(item_search_dto.getDate_type()),
-                        Search_Sell_Status(item_search_dto.getSell_status()),
-                        Search_By_Like(item_search_dto.getSearch_by(),item_search_dto.getSearch_query()))
+                .where(Admin_Search(item_search_dto))
                 .orderBy(QItem.item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -134,9 +132,7 @@ public class Item_Repository_Custom_Impl implements Item_Repository_Custom{
 
 //        검색 조건에 맞는 게시물의 갯수을 반환
         long total = query_factory.select(Wildcard.count).from(QItem.item)
-                .where(Reg_Time_After(item_search_dto.getDate_type()),
-                        Search_Sell_Status(item_search_dto.getSell_status()),
-                        Search_By_Like(item_search_dto.getSearch_by(),item_search_dto.getSearch_query()))
+                .where(Admin_Search(item_search_dto))
                 .fetchOne();
 
         return new PageImpl<>(content,pageable,total);
@@ -145,8 +141,10 @@ public class Item_Repository_Custom_Impl implements Item_Repository_Custom{
     /*
         홈페이지 메인 페이지에 노출할 상품 목록을 받아옵니다
     */
-    @Override
-    public Page<Main_Item_Dto> getMainItemPageBy(Item_Search_Dto item_search_dto, Pageable pageable) {
+    //@Override
+    public Page<Main_Item_Dto> getMainItemPage(Item_Search_Dto item_search_dto, Pageable pageable) {
+
+
         QItem item = QItem.item;
         QItem_Img item_img = QItem_Img.item_Img;
 
@@ -180,5 +178,8 @@ public class Item_Repository_Custom_Impl implements Item_Repository_Custom{
 
        return new PageImpl<>(content,pageable,total);
     }
+
+
+
 
 }

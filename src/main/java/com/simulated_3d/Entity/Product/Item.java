@@ -4,12 +4,15 @@ import com.simulated_3d.Constant.Sell_Status;
 import com.simulated_3d.DTO.Item_Dto;
 import com.simulated_3d.Entity.Base;
 import com.simulated_3d.Exception.OutOfStockException;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 
+@Data
 @Entity
+@Table
 @Getter
 @Setter
 public class Item extends Base {

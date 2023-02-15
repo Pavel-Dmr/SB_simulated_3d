@@ -178,13 +178,13 @@ public class Item_Service {
     @Transactional(readOnly = true)
     public Page<Item> getAdminItemPage(Item_Search_Dto item_search_dto, Pageable pageable)
     {
-        return item_repository.getAdminItemPageBy(item_search_dto,pageable);
+        return item_repository.getAdminItemPage(item_search_dto,pageable);
     }
 
     @Transactional(readOnly = true)
     public Page<Main_Item_Dto> getMainItemPage(Item_Search_Dto item_search_dto, Pageable pageable)
     {
-        return item_repository.getMainItemPageBy(item_search_dto,pageable);
+        return item_repository.getMainItemPage(item_search_dto,pageable);
     }
 
 
