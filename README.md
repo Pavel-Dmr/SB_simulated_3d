@@ -132,7 +132,30 @@
 logback.xml    
 ![code](https://user-images.githubusercontent.com/104084926/216399205-0357e33f-3353-4423-a707-5c08e3846c7b.png)
 
-  ---
+  ### "QueryDsl을 구현하는 Custom_RepositoryImpl을 구현 후 Service에서 Custom_Repository 메소드 요청 시 오류 발생"
+  
+    [상황]
+    
+    - 커스텀 메소드에 최소 1개 이상의 매개변수는 제공했으나, 쿼리에는 0개의 매개변수만 있습니다.
+    - 해당 메소드을 사용에 연관된 컨트롤러,서비스,저장소가 빈 등록 오류가 발생
+    
+    [문제]
+    
+    - QueryDsl을 통해, 구현한 메소드을 사용 할 수가 없다. 원하는 기능 구현을 할수가 없음
+    
+    [해결]
+    
+     리포지토리 TDD 작성 후, Impl만 테스트 했는데, 구현 QuesyDsl 코드 자체에는 문제가 없었다.
+     서비스 TDD 작성 후, 서비스 - 리포지토리 간의 메소드 테스트을 진행 했는데, 쿼리 매개변수 오류가 났다.
+     오류 해결 과정에서 수정이 잦다보니, 오류도 다양했는데, 커스텀 쿼리 메소드에 끝에 By을 포함 해 작성 했을 땐, 쿼리 매개변수 오류가 났고
+     커스텀 쿼리 메소드에 By을 제거하고 작성 했을때는 , 빈 오류가 났다
+     By가 끝에 붙었을땐, Jpa리포지토리 메소드로 인식되고, 안붙었을땐 QueryDsl 메소드로 인식이 안된다는 소리
+     Impl 클래스가 제대로 적용이 안되서 QueryDsl 메소드로 인식이 안되고 있다고 판단됨
+    
+     무엇이 문제인가 하니, Impl 클래스명을 잘못 생성 했다. 커스텀 리포지토리명이 Item_Repository_Custom이었는데 Impl 클래스명을 Item_Repository_Custom_Impl로 작성했다.
+     implements 해도 Impl 클래스명 자체가 잘못되니, 사용자 정의 구현 클래스로 인식을 못해서, 커스텀 리포지토리 메소드을 JpaRepository 메소드로 인식 했다.
+     Item_Repository_CustomImpl로 수정 후, 제대로 동작함.
+
 
 
 
