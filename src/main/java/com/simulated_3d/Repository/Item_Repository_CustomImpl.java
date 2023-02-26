@@ -4,6 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.simulated_3d.Constant.Sell_Status;
+import com.simulated_3d.DTO.Item_Dto;
 import com.simulated_3d.DTO.Item_Search_Dto;
 import com.simulated_3d.DTO.Main_Item_Dto;
 import com.simulated_3d.DTO.QMain_Item_Dto;
@@ -31,7 +32,7 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
 
     private final JPAQueryFactory query_factory;
 
-    BooleanBuilder Admin_Search(Item_Search_Dto item_search_dto)
+    BooleanBuilder Search_Builder(Item_Search_Dto item_search_dto)
     {
         BooleanBuilder builder = new BooleanBuilder();
 
@@ -47,7 +48,7 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
     */
     BooleanExpression Search_Sell_Status(Sell_Status sell_status)
     {
-        return sell_status == null ? (BooleanExpression) null : QItem.item.sell_status.eq(sell_status);
+        return sell_status == null ?  null : QItem.item.sell_status.eq(sell_status);
     }
 
     /*
@@ -58,7 +59,7 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
         LocalDateTime date_time = LocalDateTime.now();
 
 
-        if(StringUtils.equals("all",reg_time))
+        if(StringUtils.equals("all",reg_time) || reg_time == null)
         {
             return  null;
         }
@@ -92,15 +93,21 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
     */
     BooleanExpression Search_By_Like(String search_by, String search_query)
     {
-        switch (search_by)
+        if(StringUtils.isEmpty(search_query))
         {
-            case "name":
-                return QItem.item.name.like("%" + search_query + "%");
-            case "created_by":
-                return QItem.item.created_by.like("%" + search_query + "%");
+            return null;
+        }
+        else {
+            switch (search_by) {
+                case "name":
+                    return QItem.item.name.like("%" + search_query + "%");
+                case "created_by":
+                    return QItem.item.created_by.like("%" + search_query + "%");
+                default:
+                    return null;
+            }
         }
 
-        return (BooleanExpression) null;
     }
 
     /*
@@ -108,7 +115,7 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
     */
     private BooleanExpression Item_Name_Like(String search_query)
     {
-        return StringUtils.isEmpty(search_query) ? (BooleanExpression) null : QItem.item.name.like("%" + search_query + "%");
+        return StringUtils.isEmpty(search_query) ?  null : QItem.item.name.like("%" + search_query + "%");
     }
 
 
@@ -124,7 +131,7 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
 //        게시물 정보을 리스트로 반환
         List<Item> content = query_factory
                 .selectFrom(QItem.item)
-                .where(Admin_Search(item_search_dto))
+                .where(Search_Builder(item_search_dto))
                 .orderBy(QItem.item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -132,11 +139,12 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
 
 //        검색 조건에 맞는 게시물의 갯수을 반환
         long total = query_factory.select(Wildcard.count).from(QItem.item)
-                .where(Admin_Search(item_search_dto))
+                .where(Search_Builder(item_search_dto))
                 .fetchOne();
 
         return new PageImpl<>(content,pageable,total);
     }
+
 
     /*
         홈페이지 메인 페이지에 노출할 상품 목록을 받아옵니다
@@ -147,7 +155,6 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
 
         QItem item = QItem.item;
         QItem_Img item_img = QItem_Img.item_Img;
-
         List<Main_Item_Dto> content = query_factory
                 .select(
                         new QMain_Item_Dto(
@@ -160,7 +167,7 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
                 .from(item_img)
                 .join(item_img.item,item)
                 .where(item_img.main.eq(true))
-                .where(Item_Name_Like(item_search_dto.getSearch_query()))
+                .where(Search_Builder(item_search_dto))
                 .orderBy(item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -179,7 +186,21 @@ public class Item_Repository_CustomImpl implements Item_Repository_Custom{
        return new PageImpl<>(content,pageable,total);
     }
 
+    /*
+        1개의 상품에 대한 이미지 목록 리턴
+    */
+    @Override
+    public List<String> getImgUrlList(Item_Dto item_dto) {
 
+        List<String> content = query_factory
+                .select(QItem_Img.item_Img.url)
+                .from(QItem_Img.item_Img)
+                .where(QItem_Img.item_Img.item.id.eq(item_dto.getId()))
+                .orderBy(QItem_Img.item_Img.id.desc())
+                .fetch();
+
+      return content;
+    }
 
 
 }

@@ -96,14 +96,14 @@ public class TEST_Item_Repository {
 
         List<Item> content = query_factory
                 .selectFrom(qitem)
-                .where(item_repository_custom_impl.Admin_Search(item_search_dto))
+                .where(item_repository_custom_impl.Search_Builder(item_search_dto))
                 .orderBy(QItem.item.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         long total = query_factory.select(Wildcard.count).from(QItem.item)
-                .where(item_repository_custom_impl.Admin_Search(item_search_dto))
+                .where(item_repository_custom_impl.Search_Builder(item_search_dto))
                 .fetchOne();
 
         Page<Item> item_page = new PageImpl<>(content,pageable,total);

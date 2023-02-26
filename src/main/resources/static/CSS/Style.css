@@ -246,3 +246,31 @@ form > label {
   transform: translateY(-50%);
   right: 0%;
 }
+
+.prod_row_item {
+  width: 300px;
+}
+
+.prod_row_item a {
+  text-decoration-line: none;
+}
+.content .info {
+}
+
+.product_list {
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+
+.main_img_slider {
+  width: 500px;
+  height: 500px;
+  position: absolute;
+}
+
+.main_info {
+  width: 500px;
+  height: 500px;
+  position: absolute;
+}

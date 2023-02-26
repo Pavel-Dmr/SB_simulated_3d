@@ -174,15 +174,12 @@ public class ADMIN_Item_Controller {
     @GetMapping(value = {"/list" ,"/list/{page}"})
     public String ADMIN_Item_List(Item_Search_Dto item_search_dto, @PathVariable("page") Optional<Integer> page, Model model)
     {
-        if(item_search_dto == null)
-        {
-            item_search_dto = new Item_Search_Dto("all", Sell_Status.SELL,"name","");
-        }
+
 
         Pageable pageable = PageRequest.of(page.orElse(0), 10);
-        Page<Item> items = item_service.getAdminItemPage(item_search_dto, pageable);
+        Page<Item> item_page = item_service.getAdminItemPage(item_search_dto, pageable);
 
-        model.addAttribute("items", items);
+        model.addAttribute("item_page", item_page);
         model.addAttribute("item_search_dto", item_search_dto);
         model.addAttribute("max_page", 5);
 

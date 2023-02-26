@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.transaction.annotation.Transactional;
@@ -187,7 +188,11 @@ public class Item_Service {
         return item_repository.getMainItemPage(item_search_dto,pageable);
     }
 
-
+    @Transactional(readOnly = true)
+    public List<String> getImgUrlList(Item_Dto item_dto)
+    {
+        return item_repository.getImgUrlList(item_dto);
+    }
 
 
 

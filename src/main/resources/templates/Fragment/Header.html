@@ -53,12 +53,12 @@
         </ul>
       </nav>
       <!--  -->
-      <nav class="navbar navbar-expand-sm ">
+      <nav class="navbar navbar-expand-sm">
         <button class="navbar-toggler" type="button" data-toggle="collapse">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <ul class="navbar-nav nav-fix">
+        <ul class="navbar-nav nav-fix w-75">
           <li class="nav-item me-5" style="margin-top: 5px">
             <a href="/" class="navbar-brand d-flex"><h1 class="main_logo">NOVA</h1></a>
           </li>
@@ -80,11 +80,14 @@
           <li class="nav-item">
             <a class="nav-link" th:href="@{/}">이벤트</a>
           </li>
+          <li class="nav-item position-absolute end-0">
+            <form class="form-inline d-flex" th:action="@{/}" method="get" role="search">
+              <input name="search_query" class="form-control w-100" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit" hidden="">검색</button>
+            </form>
+          </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0 d-flex" th:action="@{/}" method="get" role="search">
-          <input name="search_query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-2" type="submit">검색</button>
-        </form>
+
       </nav>
       <div class="right_popup">
         <div class="kakko"></div>

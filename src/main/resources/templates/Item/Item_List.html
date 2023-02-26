@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout1}">
+      layout:decorate="~{Layout/Layout_01}">
 
 <!-- 사용자 스크립트 추가 -->
 <th:block layout:fragment="script">
     <script th:inline="javascript">
 
         $(document).ready(function(){
-            $("#searchBtn").on("click",function(e) {
+            $("#search_btn").on("click",function(e) {
                 e.preventDefault();
-                page(0);
+                Page(0);
             });
         });
 
-        function page(page){
-            var searchDateType = $("#searchDateType").val();
-            var searchSellStatus = $("#searchSellStatus").val();
-            var searchBy = $("#searchBy").val();
-            var searchQuery = $("#searchQuery").val();
+        function Page(page){
+            var date_type = $("#date_type").val();
+            var sell_status = $("#sell_status").val();
+            var search_by = $("#search_by").val();
+            var search_query = $("#search_query").val();
 
-            location.href="/admin/items/" + page + "?searchDateType=" + searchDateType
-            + "&searchSellStatus=" + searchSellStatus
-            + "&searchBy=" + searchBy
-            + "&searchQuery=" + searchQuery;
+            location.href="/item/list/" + page
+            + "?date_type=" + date_type
+            + "&sell_status=" + sell_status
+            + "&search_by=" + search_by
+            + "&search_query=" + search_query;
         }
 
     </script>
@@ -39,82 +40,81 @@
 </th:block>
 
 <div layout:fragment="content">
-
-    <form th:action="@{'/admin/items/' + ${items.number}}" role="form" method="get" th:object="${items}">
-        <table class="table">
-            <thead>
-            <tr>
-                <td>상품아이디</td>
-                <td>상품명</td>
-                <td>상태</td>
-                <td>등록자</td>
-                <td>등록일</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item, status: ${items.getContent()}">
-                <td th:text="${item.id}"></td>
-                <td>
-                    <a th:href="'/admin/item/'+${item.id}" th:text="${item.itemNm}"></a>
-                </td>
-                <td th:text="${item.itemSellStatus == T(com.shop.constant.ItemSellStatus).SELL} ? '판매중' : '품절'"></td>
-                <td th:text="${item.createdBy}"></td>
-                <td th:text="${item.regTime}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <!-- start = (현재 페이지 번호/ 보여줄 페이지수) + 1-->
-        <!-- end = start + ( 보여줄 페이지수- 1 )-->
-        <div th:with="start=${(items.number/maxPage)*maxPage + 1}, end=(${(items.totalPages == 0) ? 1 : (start + (maxPage - 1) < items.totalPages ? start + (maxPage - 1) : items.totalPages)})" >
-            <ul class="pagination justify-content-center">
-                <!-- 첫번재 페이지면 이전 페이지로 이동하는 Previous 버튼 사용금지-->
-                <li class="page-item" th:classappend="${items.first}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${items.number - 1} + ')'" aria-label='Previous' class="page-link">
-                        <span aria-hidden='true'>Previous</span>
-                    </a>
-                    <!-- Previous 클릭스 page 함수 호출-->
-                </li>
-
-                <!-- 현재페이지이면 active 클래스 추가-->
-                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${items.number eq page-1}?'active':''">
-                    <a th:onclick="'javascript:page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
-                    <!--               페이지 번호 클릭시 해당 페이지로 이동하도록 page 함수를 호출한다.-->
-                </li>
+    <!-- -->
+    <div class="wrap">
+        <form th:action="@{'/item/list/' + ${item_page.number}}" role="form" method="get" th:object="${item_page}">
+           <ul class="product_list">
+               <li th:each="item, status: ${item_page.getContent()}">
+                   <figure class="prod_row_item">
+                       <a th:href="${item.id}">
+                           <span class="img">
+                               <img th:src="${item.url}" th:alt="${item.name}" height="375">
+                           </span>
+                        <figcaption class="content">
+                            <div class="info">
+                                <div class="tag mt - 1"></div>
+                                <div class="title mt-1" th:text="${item.name}"></div>
+                                <div class="price mt-5 ms-2" th:text="${item.price} + '원'"></div>
+                            </div>
+                        </figcaption>
+                       </a>
+                   </figure>
+                   <hr class="w-100">
+               </li>
+           </ul>
+            <!-- start = (현재 페이지 번호/ 보여줄 페이지수) + 1-->
+            <!-- end = start + ( 보여줄 페이지수- 1 )-->
+            <div th:with="start=${(item_page.number/max_page)*max_page + 1}, end=(${(item_page.totalPages == 0) ? 1 : (start + (max_page - 1) < item_page.totalPages ? start + (max_page - 1) : item_page.totalPages)})" >
+                <ul class="pagination justify-content-center">
+                    <!-- 첫번재 페이지면 이전 페이지로 이동하는 Previous 버튼 사용금지-->
+                    <li class="page-item" th:classappend="${item_page.first}?'disabled'">
+                        <a th:onclick="'javascript:Page(' + ${item_page.number - 1} + ')'" aria-label='Previous' class="page-link">
+                            <span aria-hidden='true'>Previous</span>
+                        </a>
+                        <!-- Previous 클릭시 page 함수 호출-->
+                    </li>
 
 
-                <!--                마지막 페이지면 Next버튼 선택불가능하게 disabled-->
-                <li class="page-item" th:classappend="${items.last}?'disabled'">
-                    <a th:onclick="'javascript:page(' + ${items.number + 1} + ')'" aria-label='Next' class="page-link">
-                        <!--                        다음페이지 이동하도록 page 함수를 호출합니다.-->
-                        <span aria-hidden='true'>Next</span>
-                    </a>
-                </li>
+                    <!-- 현재페이지이면 active 클래스 추가-->
+                    <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}" th:classappend="${item_page.number eq page-1}?'active':''">
+                        <a th:onclick="'javascript:Page(' + ${page - 1} + ')'" th:inline="text" class="page-link">[[${page}]]</a>
+                        <!--               페이지 번호 클릭시 해당 페이지로 이동하도록 page 함수를 호출한다.-->
+                    </li>
 
-            </ul>
-        </div>
 
-        <div class="form-inline justify-content-center" th:object="${item_search_dto}">
-            <select th:field="*{date_type}" class="form-control" style="width:auto;">
-                <option value="all">전체기간</option>
-                <option value="1d">1일</option>
-                <option value="1w">1주</option>
-                <option value="1m">1개월</option>
-                <option value="6m">6개월</option>
-            </select>
-            <select th:field="*{sell_status}" class="form-control" style="width:auto;">
-                <option value="">판매상태(전체)</option>
-                <option value="SELL">판매</option>
-                <option value="SOLD_OUT">품절</option>
-            </select>
-            <select th:field="*{search_by}" class="form-control" style="width:auto;">
-                <option value="name">상품명</option>
-                <option value="created_by">등록자</option>
-            </select>
-            <input th:field="*{search_query}" type="text" class="form-control" placeholder="검색어를 입력해주세요">
-            <button id="search_btn" type="submit" class="btn btn-primary">검색</button>
-        </div>
-    </form>
+                    <!--            다음페이지 버튼 -   마지막 페이지면 disabled -->
+                    <li class="page-item" th:classappend="${item_page.last}?'disabled'">
+                        <a th:onclick="'javascript:Page(' + ${item_page.number + 1} + ')'" aria-label='Next' class="page-link">
+                            <!--                        다음페이지 이동하도록 page 함수를 호출합니다.-->
+                            <span aria-hidden='true'>Next</span>
+                        </a>
+                    </li>
 
+                </ul>
+            </div>
+
+            <div class="form-inline d-flex  w-50 h-25 mx-auto" id="search_selecter" th:object="${item_search_dto}">
+                <select th:field="*{date_type}" class="form-control h-25" style="width:auto;">
+                    <option value="all">전체기간</option>
+                    <option value="1d">1일</option>
+                    <option value="1w">1주</option>
+                    <option value="1m">1개월</option>
+                    <option value="6m">6개월</option>
+                </select>
+                <select th:field="*{sell_status}" class="form-control h-25" style="width:auto;">
+                    <option value="">판매상태(전체)</option>
+                    <option value="SELL">판매</option>
+                    <option value="SOLD_OUT">품절</option>
+                </select>
+                <select th:field="*{search_by}" class="form-control h-25" style="width:auto;">
+                    <option value="name">상품명</option>
+                    <option value="created_by">등록자</option>
+                </select>
+                <input th:field="*{search_query}" type="text" class="form-control h-25 w-100 my-auto ms-1" placeholder="검색어를 입력해주세요">
+                <button id="search_btn" type="submit" class="btn btn-primary h-25 w-25 " hidden="">검색</button>
+            </div>
+        </form>
+
+    </div>
 </div>
-
 </html>

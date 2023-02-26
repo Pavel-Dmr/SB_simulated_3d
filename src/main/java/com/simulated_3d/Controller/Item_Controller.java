@@ -1,8 +1,6 @@
 package com.simulated_3d.Controller;
 
-import com.simulated_3d.DTO.Item_Dto;
-import com.simulated_3d.DTO.Item_Img_Dto;
-import com.simulated_3d.DTO.Item_Search_Dto;
+import com.simulated_3d.DTO.*;
 import com.simulated_3d.Entity.Product.Item;
 import com.simulated_3d.Service.Item_Img_Service;
 import com.simulated_3d.Service.Item_Service;
@@ -42,7 +40,12 @@ public class Item_Controller {
     @GetMapping(value = "/{item_id}")
     public String Item_View(Model model, @PathVariable("item_id") Long item_id){
         Item_Dto item_dto = item_service.Get_Item(item_id);
+        List<String> img_url_list = item_service.getImgUrlList(item_dto);
+        Order_Dto order_dto = new Order_Dto();
+
         model.addAttribute("item_dto", item_dto);
+        model.addAttribute("img_url_list", img_url_list);
+        model.addAttribute("order_dto", order_dto);
         return "Item/Item_View";
     }
 
@@ -55,12 +58,12 @@ public class Item_Controller {
    @GetMapping(value = {"/list","/list/{page}"})
     public String Item_list(Item_Search_Dto item_search_dto,@PathVariable("page") Optional<Integer> page,Model model)
    {
-       Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 3);
-       Page<Item> items = item_service.getAdminItemPage(item_search_dto, pageable);
+       Pageable pageable = PageRequest.of(page.orElse(0), 8);
+       Page<Main_Item_Dto> item_page = item_service.getMainItemPage(item_search_dto, pageable);
 
-       model.addAttribute("items", items);
+       model.addAttribute("item_page", item_page);
        model.addAttribute("item_search_dto", item_search_dto);
-       model.addAttribute("maxPage", 5);
+       model.addAttribute("max_page", 5);
 
        return "Item/Item_List";
    }
