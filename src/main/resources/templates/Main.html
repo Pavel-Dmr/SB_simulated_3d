@@ -2,7 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout
 layout:decorate="~{Layout/Layout_01}">
-<style th:inline="text"></style>
+<th:block layout:fragment="css">
+  <style>
+  .header nav *
+  {
+    color: white !important;
+  }
+</style>
+</th:block>
+
+
 <div layout:fragment="content" style="top: -250px">
 
   <div class="top_background_side">

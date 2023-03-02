@@ -16,11 +16,11 @@ public class Cart extends Base {
     private Long id;
 
 
-    /* 연관관계 필드 */
+    /* TODO 연관관계 필드 */
     @OneToOne(fetch = FetchType.EAGER)
     private Member member;
 
-    /* 연관관계 메서드 */
+    /* TODO 연관관계 메서드 */
 
     /*
         @카트을 생성합니다

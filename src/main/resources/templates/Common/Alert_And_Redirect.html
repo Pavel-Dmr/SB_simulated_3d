@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="fragments/header :: main-head"></head>
+<body>
+<form th:if="${not #maps.isEmpty( alert_dto.data )}" id="redirect_form" th:action="${alert_dto.redirect_url}" th:method="${alert_dto.method}" style="display: none;">
+    <input th:each="key, status : ${alert_dto.data.keySet()}" type="hidden" th:name="${key}" th:value="${alert_dto.data.get(key)}" />
+</form>
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+        window.onload = () => {
+          const message = [[ ${alert_dto.message} ]];
+          const type = [[ ${alert_dto.type} ]];
+
+          const redirect_url = [[ ${alert_dto.redirect_url} ]];
+          const form = document.getElementById('redirect_form');
+
+
+          if(type == 1)
+          {
+               alert(message);
+               location.reload();
+               return false;
+          }
+          else if(type == 2)
+          {
+                if(confirm(message))
+                {
+                   break;
+                }
+                else
+                {
+                     return false;
+                }
+          }
+          else if (type == 3)
+          {
+            alert(message);
+          }
+          else if(type == 4)
+          {
+            alert(message);
+            return false;
+          }
+
+          if (form)
+          {
+            form.submit();
+            return false;
+          }
+          else
+          {
+            location.href = redirect_url;
+          }
+
+        }
+
+      </script>
+</th:block>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package com.simulated_3d.Controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.simulated_3d.DTO.Alert_Dto;
 import com.simulated_3d.DTO.Order_Dto;
 import com.simulated_3d.DTO.Order_Hist_Dto;
 import com.simulated_3d.Service.Order_Service;
@@ -18,12 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
 @RequestMapping(value = "/order")
 @RequiredArgsConstructor
-public class Order_Controller {
+
+public class Order_Controller extends Alert_Controller{
 
     private final Order_Service order_service;
 
@@ -42,8 +46,8 @@ public class Order_Controller {
 
     */
     @PostMapping(value = "/new")
-    public @ResponseBody ResponseEntity Order(@RequestBody @Valid Order_Dto order_dto
-            , BindingResult binding_result, Principal principal){
+    public String Single_Order(@Valid Order_Dto order_dto
+            , BindingResult binding_result, Principal principal,Model model){
 
 
         if(binding_result.hasErrors())
@@ -54,19 +58,27 @@ public class Order_Controller {
             for (FieldError field_error : field_error_list) {
                 sb.append(field_error.getDefaultMessage());
             }
-            return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
+
+            Alert_Dto alert_dto = new Alert_Dto("잘못된 요청입니다 \n 오류 원인 :" + sb.toString() +"\n 응답코드 : " + HttpStatus.BAD_REQUEST,1,null,null,RequestMethod.GET);
+            return Alert_And_Redirect(alert_dto,model);
         }
+
         String email = principal.getName();
+
         Long order_id;
 
         try {
             order_id = order_service.Order(order_dto, email);
         }
         catch(Exception e){
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            Alert_Dto alert_dto = new Alert_Dto("잘못된 요청입니다. \n 오류 원인 :" + e.getMessage() +"\n 응답코드 : " + HttpStatus.BAD_REQUEST,
+                    1,null,null,RequestMethod.GET);
+            return Alert_And_Redirect(alert_dto,model);
         }
 
-        return new ResponseEntity<Long>(order_id, HttpStatus.OK);
+        Alert_Dto alert_dto = new Alert_Dto("정상적으로 주문 되었습니다.",
+                3,"redirect:/",null,RequestMethod.GET);
+        return Alert_And_Redirect(alert_dto,model);
     }
 
 
@@ -85,7 +97,7 @@ public class Order_Controller {
         Pageable pageable = PageRequest.of(page.isPresent() ? page.get() : 0, 5);
         //한번에 가지고 올 수 있는 주문
 
-        Page<Order_Hist_Dto> order_hist_dtos = order_service.Get_Orders(principal.getName(), pageable);
+        Page<Order_Hist_Dto> order_hist_dtos = order_service.Get_Order_Page(principal.getName(), pageable);
 
         model.addAttribute("order_hist_dtos", order_hist_dtos);
         model.addAttribute("page", pageable.getPageNumber());
@@ -106,14 +118,16 @@ public class Order_Controller {
             return 성공적으로 취소됨 OK
     */
     @PostMapping("/cancle/{order_id}")
-    public @ResponseBody ResponseEntity Cancel_Order(@PathVariable("order_id") Long order_id , Principal principal){
+    public String Cancel_Order(@PathVariable("order_id") Long order_id , Principal principal,Model model){
 
         if(!order_service.Validate_Order(order_id, principal.getName())){
-            return new ResponseEntity<String>("주문 취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
+            Alert_Dto alert_dto = new Alert_Dto("주문 취소 권한이 없습니다. \n 응답 코드 : " + HttpStatus.FORBIDDEN,1,null,null,RequestMethod.GET);
+            return Alert_And_Redirect(alert_dto,model);
         }
 
         order_service.Cancel_Order(order_id);
-        return new ResponseEntity<Long>(order_id, HttpStatus.OK);
+        Alert_Dto alert_dto = new Alert_Dto("정상적으로 취소 되었습니다.",1,null,null,RequestMethod.GET);
+
     }
 
 

@@ -52,14 +52,14 @@ public class Security_Config {
 
         http.authorizeRequests()
                 .mvcMatchers("/css/**","/js/**","/img/**","/font/**").permitAll()
-                .mvcMatchers("/","/member/**","/item/**","/image/**").permitAll()
-                .mvcMatchers("item/admin/**").hasRole("ADMIN")
+                .mvcMatchers("/","/member/**","/item/**","/image/**","/order/**").permitAll()
+                .mvcMatchers("/order/**","/cart/**").hasRole("USER")
+                .mvcMatchers("item/admin/**","/order/**","/cart/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new  Custom_Authentication_EntryPoint());
-
 
 
 

@@ -39,9 +39,10 @@ public class Item_Controller {
     */
     @GetMapping(value = "/{item_id}")
     public String Item_View(Model model, @PathVariable("item_id") Long item_id){
+
         Item_Dto item_dto = item_service.Get_Item(item_id);
         List<String> img_url_list = item_service.getImgUrlList(item_dto);
-        Order_Dto order_dto = new Order_Dto();
+        Order_Dto order_dto = new Order_Dto(item_id,1);
 
         model.addAttribute("item_dto", item_dto);
         model.addAttribute("img_url_list", img_url_list);

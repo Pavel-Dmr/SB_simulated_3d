@@ -47,6 +47,7 @@ public class Order extends Base  {
 
     // 주문 생성 - 주문자 설정,
     public static Order Create_Order(Member member, List<Order_Item> order_item_list) {
+
         Order order = new Order();
         order.setMember(member);
 

@@ -21,8 +21,9 @@ import java.util.HashMap;
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @Controller
+
 @Slf4j
-public class Member_Controller {
+public class Member_Controller extends Alert_Controller{
 
     @Autowired
     private final Member_Service member_service;

@@ -1,5 +1,6 @@
 package com.simulated_3d.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class Order_Dto {
 
     @NotNull(message = "상품 아이디는 필수 입력 값입니다.")

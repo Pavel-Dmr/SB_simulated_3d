@@ -36,12 +36,11 @@
             <dt class="fs-4">적립금</dt>
             <dd class="fs-5 my-auto position-absolute  end-50 " th:text="'1%(' + ${#numbers.formatInteger(item_dto.price / 100 ,1,'COMMA') + '원)'}"></dd>
           </dl>
-          <form class="button_group d-flex w-100 align-items-center">
-            <div class="" th:object="${order_dto}">
-                <input type="number" class="" th:field="*{count}">
-            </div>
-            <button id="purchase" class="btn btn-primary w-50" type="submit" th:formaction="@{'/order/new'}" method="get">구매하기</button>
-            <button id="cart" class="btn btn-warning w-25" type="submit" th:formaction="@{'/cart/add'}" method="post" onsubmit="">장바구니</button>
+          <form th:action id="item_form"  class="button_group d-flex w-75 align-items-center" enctype="multipart/form-data" th:object="${order_dto}" method="post">
+            <input type="text" th:field="*{id}" hidden="">
+            <input type="number"  th:field="*{count}" >
+            <button id="purchase" class="btn btn-primary w-50 ms-1" type="submit" th:formaction="@{'/order/new'}">구매하기</button>
+            <button id="cart" class="btn btn-warning w-25 ms-1" type="submit" th:formaction="@{'/cart/add'}">장바구니</button>
           </form>
         </div>
       </figcaption>

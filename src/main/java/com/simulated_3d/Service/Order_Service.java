@@ -61,6 +61,8 @@ public class Order_Service {
 
         Order order = Order.Create_Order(member,order_item_list);
 
+        order_repository.save(order);
+
         return order.getId();
     }
 
@@ -80,7 +82,7 @@ public class Order_Service {
         success
             order.id 리턴
     */
-    public Long Orders(List<Order_Dto> order_dtos ,String email)
+    public Long Order_List(List<Order_Dto> order_dtos ,String email)
     {
         Member member = member_repository.findByEmail(email);
         List<Order_Item> order_items = new ArrayList<>();
@@ -113,7 +115,7 @@ public class Order_Service {
                 order_item_dto
     */
     @Transactional(readOnly = true)
-    public Page<Order_Hist_Dto> Get_Orders(String email, Pageable pageable)
+    public Page<Order_Hist_Dto> Get_Order_Page(String email, Pageable pageable)
     {
         List<Order> orders = order_repository.Find_Order_List(email,pageable);
 

@@ -54,7 +54,7 @@
 }
 
 .header nav * {
-  color: white !important;
+  color: black;
 }
 
 .header nav.fixed * {
@@ -273,4 +273,8 @@ form > label {
   width: 500px;
   height: 500px;
   position: absolute;
+}
+
+#item_form #count {
+  width: 50px;
 }
