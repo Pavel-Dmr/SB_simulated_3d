@@ -127,7 +127,7 @@ public class Order_Controller extends Alert_Controller{
 
         order_service.Cancel_Order(order_id);
         Alert_Dto alert_dto = new Alert_Dto("정상적으로 취소 되었습니다.",1,null,null,RequestMethod.GET);
-
+        return Alert_And_Redirect(alert_dto,model);
     }
 
 
